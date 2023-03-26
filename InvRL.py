@@ -138,6 +138,7 @@ class InvRL(Model):
         self.fs = FeatureSelector(self.mask_dim, self.args.sigma, args).to(self.args.device)
         self.lam = self.args.lam
         self.alpha = self.args.alpha
+        # backmodel 定义在此
         self.backmodel = UltraGCNNet(self.ds, self.args, self.logging, has_bias=False).to(self.args.device)
 
         self.net = None
@@ -160,7 +161,7 @@ class InvRL(Model):
             return result
 
     def init_word_emb(self, net):
-        word_emb = torch.load(self.filename_pre)['word_emb']
+        word_emb = torch.load(self.filename_pre,map_location=torch.device('cpu'))['word_emb']
         net.word_emb.data.copy_(word_emb)
         net.word_emb.requires_grad = False
 
@@ -183,6 +184,7 @@ class InvRL(Model):
                 self.logging.info('Environment %d' % i)
                 self.net_e = FrontModel(self.ds, self.args, self.logging).to(self.args.device)
                 # environment network
+                # 加载抖音训练数据集，并开始训练划分环境：
                 if self.args.dataset == 'tiktok':
                     self.init_word_emb(self.net_e.net)
                 self.net_e.train(self.weight, self.domain, i)
@@ -212,7 +214,7 @@ class InvRL(Model):
         grad_single = grad(loss_single, self.backmodel.MLP.weight, create_graph=True)[0]
         return loss_single, grad_single
 
-    def loss_p(self, loss_avg, grad_avg, grad_list):    #   作用是汇总总Loss，通过正则化以及求和手段判断惩罚值，返回所有值
+    def loss_p(self, loss_avg, grad_avg, grad_list):    # 这里对应 mm论文中（2）式，也就是IRM计算过程
         penalty = torch.zeros_like(grad_avg).to(self.args.device)
         for gradient in grad_list:
             penalty += (gradient - grad_avg) ** 2
@@ -223,6 +225,10 @@ class InvRL(Model):
         total_loss = total_loss + self.lam * reg_penalty
         return total_loss, penalty_detach, reg
 
+    def loss_e(self,loss_avg, grad_avg, grad_list): # 在这里开始写ERM的Loss function/惩罚界定
+        print("ERM start at here:")
+
+
     def init_backmodel(self):
         self.backmodel.load_state_dict(torch.load(self.filename_pre), strict=False)
         self.fs.renew()
@@ -231,12 +237,20 @@ class InvRL(Model):
         torch.nn.init.normal_(self.backmodel.MLP.weight, mean=0.0, std=0.01)
         self.backmodel.MLP.weight.requires_grad = True
 
-# backend 是神经网络学习优化的过程a
-    def backend(self): # 6式
+
+    def backend(self):
+        # BackModel是FrontModel划分环境之后，在Variant Representations基础上对Mask进行学习的过程
+        # 所学到的 Mask (m) 被用于后续FrontModel 环境划分
+        # 如果我们需要在划分环境之后应用ERM，ERM应该添加至此处
+
+        # IRM 是对不同环境下不变特征的学习，学习数据集必须是不同环境
+        # ERM 经验风险最小化，ERM可以在不同环境和相同环境下学习，普适性更强
+
         self.logging.info('----- backend -----')
         self.init_backmodel() # 初始化 backmodel中的参数
         lr1, wd1 = self.args.p_emb
         lr2, wd2 = self.args.p_proj
+        # Adam 一种自适应调节 学习率/梯度/步长etc 的机器学习优化方法
         optimizer2 = torch.optim.Adam([{'params': self.backmodel.proj_params, 'lr': lr2, 'weight_decay': 0}, {'params': self.fs.mu, 'lr': self.args.lr, 'weight_decay': 0}])
 
         epochs = self.args.b_epoch
@@ -257,7 +271,7 @@ class InvRL(Model):
                 grad_avg = torch.zeros_like(self.backmodel.MLP.weight).to(self.args.device)  # 0.0
                 grad_list = []
                 for i in range(self.args.num_domains):
-                    uid, iid, niid = next(generator[i])
+                    uid, iid, niid = next(generator[i]) # next()返回下一个迭代器
                     if uid is None:
                         finish[i] = 1
                         if sum(finish) < self.args.num_domains:
@@ -327,7 +341,7 @@ class InvRL(Model):
         self.fs.eval()
         assert self.fs.training is False
 
-        for epoch in tqdm(range(epochs)):
+        for epoch in tqdm(range(epochs)):   # epoch 是完整跑完一边数据集，训练过程不只跑一遍数据
             generator = self.ds.sample()
             while True:
                 self.net.train()
@@ -340,14 +354,14 @@ class InvRL(Model):
 
                 loss = self.net(uid, iid, niid)
 
-                loss.backward()
+                loss.backward()  # Computes the gradient of current tensor w.r.t. graph leaves.
                 optimizer.step()
                 optimizer2.step()
 
             if epoch > 0 and epoch % self.args.epoch == 0:
                 self.logging.info("Epoch %d: loss %s, U.norm %s, V.norm %s, MLP.norm %s" % (epoch, loss, torch.norm(self.net.U).item(), torch.norm(self.net.V).item(), torch.norm(self.net.MLP.weight).item()))
                 self.val(), self.test()
-                if self.val_ndcg > val_max:
+                if self.val_ndcg > val_max: # 冒泡法
                     val_max = self.val_ndcg
                     max_epoch = epoch
                     num_decreases = 0

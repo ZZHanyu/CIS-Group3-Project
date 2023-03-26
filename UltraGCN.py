@@ -158,6 +158,7 @@ class UltraGCNNet(torch.nn.Module):
     def predict(self, uid, iid, flag=False):
         if self.user_emb is None:
             return None
+
         if flag:
             return torch.sum(self.user_emb[uid].unsqueeze(1) * self.item_emb[iid], dim=2)
         return torch.sum(self.user_emb[uid] * self.item_emb[iid], dim=1)

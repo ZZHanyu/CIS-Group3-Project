@@ -1,0 +1,57 @@
+2023-03-25 20:54:09,050 :: INFO :: log info to logs/tiktok_InvRL.log
+2023-03-25 20:54:09,050 :: INFO :: Namespace(alpha=1.0, b_epoch=40, bsz=512, dataset='tiktok', device='cpu', epoch=5, f_epoch=20, f_max=10, feat_dim=64, ite=5, lam=0.1, lr=0.001, model='InvRL', neg_num=50, neighbor_num=10, num_domains=10, num_epoch=500, p_ctx=[0.001, 0.1], p_emb=[0.001, 0.0001], p_embp=[0.001, 0.0001], p_proj=[0.001, 0.01], p_w=[1, 1, 1, 1], pretrained=0, regi=0.0, reuse=0, sift=0, sigma=0.01, ssz=512, tolog=1, wdi=2)
+2023-03-25 20:54:10,572 :: INFO :: torch.Size([76085, 384])
+2023-03-25 20:54:16,438 :: INFO :: ----- frontend -----
+2023-03-25 20:54:16,458 :: INFO :: Environment 0
+2023-03-25 21:00:46,702 :: INFO :: log info to logs/tiktok_InvRL.log
+2023-03-25 21:00:46,702 :: INFO :: Namespace(alpha=1.0, b_epoch=40, bsz=512, dataset='tiktok', device='cpu', epoch=5, f_epoch=20, f_max=10, feat_dim=64, ite=5, lam=0.1, lr=0.001, model='InvRL', neg_num=50, neighbor_num=10, num_domains=10, num_epoch=500, p_ctx=[0.001, 0.1], p_emb=[0.001, 0.0001], p_embp=[0.001, 0.0001], p_proj=[0.001, 0.01], p_w=[1, 1, 1, 1], pretrained=0, regi=0.0, reuse=0, sift=0, sigma=0.01, ssz=512, tolog=1, wdi=2)
+2023-03-25 21:00:47,896 :: INFO :: torch.Size([76085, 384])
+2023-03-25 21:00:54,040 :: INFO :: ----- frontend -----
+2023-03-25 21:00:54,053 :: INFO :: Environment 0
+2023-03-25 21:03:21,232 :: INFO :: log info to logs/tiktok_InvRL.log
+2023-03-25 21:03:21,233 :: INFO :: Namespace(alpha=1.0, b_epoch=40, bsz=512, dataset='tiktok', device='cpu', epoch=5, f_epoch=20, f_max=10, feat_dim=64, ite=5, lam=0.1, lr=0.001, model='InvRL', neg_num=50, neighbor_num=10, num_domains=10, num_epoch=500, p_ctx=[0.001, 0.1], p_emb=[0.001, 0.0001], p_embp=[0.001, 0.0001], p_proj=[0.001, 0.01], p_w=[1, 1, 1, 1], pretrained=0, regi=0.0, reuse=0, sift=0, sigma=0.01, ssz=512, tolog=1, wdi=2)
+2023-03-25 21:03:22,482 :: INFO :: torch.Size([76085, 384])
+2023-03-25 21:03:28,184 :: INFO :: ----- frontend -----
+2023-03-25 21:03:28,207 :: INFO :: Environment 0
+2023-03-25 21:07:23,231 :: INFO :: Epoch 5: loss tensor(78780.2812), U.norm 10.710773468017578, V.norm 14.95574951171875, MLP.norm 26.580310821533203
+2023-03-25 21:11:36,910 :: INFO :: Epoch 10: loss tensor(74338.6562), U.norm 12.743417739868164, V.norm 14.875079154968262, MLP.norm 36.76354217529297
+2023-03-25 21:15:47,489 :: INFO :: Epoch 15: loss tensor(70493.6875), U.norm 14.630451202392578, V.norm 15.798015594482422, MLP.norm 43.9197883605957
+2023-03-25 21:19:36,280 :: INFO :: Epoch 20: loss tensor(66971.8828), U.norm 16.37555503845215, V.norm 17.27663230895996, MLP.norm 49.04502868652344
+2023-03-25 21:19:37,248 :: INFO :: Environment 1
+2023-03-25 21:23:28,571 :: INFO :: Epoch 5: loss tensor(78651.0078), U.norm 10.72774887084961, V.norm 14.990690231323242, MLP.norm 26.075809478759766
+2023-03-25 21:27:12,210 :: INFO :: Epoch 10: loss tensor(74365.6719), U.norm 12.745518684387207, V.norm 14.886467933654785, MLP.norm 36.00558853149414
+2023-03-25 21:30:57,238 :: INFO :: Epoch 15: loss tensor(70649.0625), U.norm 14.618178367614746, V.norm 15.746353149414062, MLP.norm 43.24523162841797
+2023-03-25 21:34:48,076 :: INFO :: Epoch 20: loss tensor(67105.2656), U.norm 16.36060333251953, V.norm 17.128013610839844, MLP.norm 48.6616325378418
+2023-03-25 21:34:48,751 :: INFO :: Environment 2
+2023-03-25 21:38:53,005 :: INFO :: Epoch 5: loss tensor(78543.0859), U.norm 10.695173263549805, V.norm 14.975322723388672, MLP.norm 26.169532775878906
+2023-03-25 21:42:37,072 :: INFO :: Epoch 10: loss tensor(74356.5938), U.norm 12.705785751342773, V.norm 14.863210678100586, MLP.norm 35.66987609863281
+2023-03-25 21:46:27,194 :: INFO :: Epoch 15: loss tensor(70662.0547), U.norm 14.571556091308594, V.norm 15.71623706817627, MLP.norm 42.91804504394531
+2023-03-25 21:50:14,984 :: INFO :: Epoch 20: loss tensor(67158.0469), U.norm 16.31003761291504, V.norm 17.092653274536133, MLP.norm 48.469970703125
+2023-03-25 21:50:15,658 :: INFO :: Environment 3
+2023-03-25 21:54:02,465 :: INFO :: Epoch 5: loss tensor(79166.6484), U.norm 10.651463508605957, V.norm 14.968517303466797, MLP.norm 25.521623611450195
+2023-03-25 21:57:49,789 :: INFO :: Epoch 10: loss tensor(75044.9453), U.norm 12.65029239654541, V.norm 14.902669906616211, MLP.norm 35.48780059814453
+2023-03-25 22:01:29,829 :: INFO :: Epoch 15: loss tensor(71449.8750), U.norm 14.526192665100098, V.norm 15.850362777709961, MLP.norm 42.67310333251953
+2023-03-25 22:05:16,975 :: INFO :: Epoch 20: loss tensor(67950.5547), U.norm 16.275951385498047, V.norm 17.369108200073242, MLP.norm 48.1007080078125
+2023-03-25 22:05:17,629 :: INFO :: Environment 4
+2023-03-25 22:09:10,438 :: INFO :: Epoch 5: loss tensor(79249.6797), U.norm 10.66997241973877, V.norm 14.962930679321289, MLP.norm 26.017513275146484
+2023-03-25 22:12:44,111 :: INFO :: Epoch 10: loss tensor(74988.2969), U.norm 12.673913955688477, V.norm 14.839290618896484, MLP.norm 35.81971740722656
+2023-03-25 22:16:17,937 :: INFO :: Epoch 15: loss tensor(71230.5469), U.norm 14.548011779785156, V.norm 15.670289993286133, MLP.norm 43.1412239074707
+2023-03-25 22:19:52,846 :: INFO :: Epoch 20: loss tensor(67631.9609), U.norm 16.28986358642578, V.norm 17.013879776000977, MLP.norm 48.53339767456055
+2023-03-25 22:19:53,463 :: INFO :: Environment 5
+2023-03-25 22:23:27,793 :: INFO :: Epoch 5: loss tensor(78725.2969), U.norm 10.633424758911133, V.norm 14.982197761535645, MLP.norm 25.779348373413086
+2023-03-25 22:26:57,871 :: INFO :: Epoch 10: loss tensor(74560.2734), U.norm 12.61066722869873, V.norm 14.901220321655273, MLP.norm 35.46091079711914
+2023-03-25 22:30:29,361 :: INFO :: Epoch 15: loss tensor(70831.9297), U.norm 14.483649253845215, V.norm 15.831314086914062, MLP.norm 42.746822357177734
+2023-03-25 22:34:01,547 :: INFO :: Epoch 20: loss tensor(67252.8672), U.norm 16.23482894897461, V.norm 17.328262329101562, MLP.norm 48.07020950317383
+2023-03-25 22:34:02,184 :: INFO :: Environment 6
+2023-03-25 22:37:34,900 :: INFO :: Epoch 5: loss tensor(78920.0156), U.norm 10.679916381835938, V.norm 14.96037483215332, MLP.norm 25.992536544799805
+2023-03-25 22:41:02,768 :: INFO :: Epoch 10: loss tensor(74568.3672), U.norm 12.694758415222168, V.norm 14.82158374786377, MLP.norm 35.8137321472168
+2023-03-25 22:44:31,951 :: INFO :: Epoch 15: loss tensor(70746.7969), U.norm 14.566908836364746, V.norm 15.630630493164062, MLP.norm 43.1983757019043
+2023-03-25 22:48:01,263 :: INFO :: Epoch 20: loss tensor(67151.4375), U.norm 16.30751609802246, V.norm 16.94659423828125, MLP.norm 48.50672149658203
+2023-03-25 22:48:01,872 :: INFO :: Environment 7
+2023-03-25 22:51:36,664 :: INFO :: Epoch 5: loss tensor(78673.5312), U.norm 10.650546073913574, V.norm 14.97412395477295, MLP.norm 25.52890396118164
+2023-03-25 22:55:09,238 :: INFO :: Epoch 10: loss tensor(74481.5703), U.norm 12.640934944152832, V.norm 14.883415222167969, MLP.norm 35.21791076660156
+2023-03-25 23:13:38,858 :: INFO :: Epoch 15: loss tensor(70770.7734), U.norm 14.515196800231934, V.norm 15.787445068359375, MLP.norm 42.6607780456543
+2023-03-25 23:17:15,088 :: INFO :: Epoch 20: loss tensor(67187.3438), U.norm 16.26540756225586, V.norm 17.239900588989258, MLP.norm 48.15561294555664
+2023-03-25 23:17:15,714 :: INFO :: Environment 8
+2023-03-25 23:53:09,045 :: INFO :: Epoch 5: loss tensor(78978.3516), U.norm 10.697601318359375, V.norm 14.948690414428711, MLP.norm 26.770505905151367
+2023-03-25 23:58:22,739 :: INFO :: Epoch 10: loss tensor(74511.5234), U.norm 12.708267211914062, V.norm 14.796112060546875, MLP.norm 36.64705276489258
