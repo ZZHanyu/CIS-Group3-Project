@@ -23,3 +23,11 @@
 >>![image](https://github.com/ZZHanyu/Group-3-Project/blob/main/IMAG/image2.png)
 >>改"default = 512"后面的数字，没有显卡的电脑推荐小于32；有显卡可以稍微大一点，设64/128之间（取决于显存大小，如果跑不成功就尽量设置小一点）
 >>（Tips：通过调整这两个数字的大小可以调整训练时间，需要根据不同电脑不同调整，请大家试试～）
+
+
+## 4/11 Zhy:
+
+>1. 运行完结果体现在 更新在tiktok中的xxx.npy数据文件，以及weights、logs 权重、日志文件
+>近期目标:
+>>(1) 需要找到比较结果的指标（如：预测正确率/时间、空间价值）
+>>(2) ERM和Attention model的代码，可以分开写在不同的.py文件中

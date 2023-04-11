@@ -26,11 +26,11 @@ class dataset:
         self.user_item_dict = np.load('tiktok/user_item_dict.npy', allow_pickle=True).item()
 
         self.usz = np.int64(36656)
-        self.train[:, 1] -= self.usz # train数据中取第一维的所有数据，取第二维度的第1个数据
+        self.train[:, 1] -= self.usz
         self.isz = np.int64(76085)
         self.dim = 64
         self.bsz = self.args.bsz
-        self.sz = int(self.train.shape[0] / 100) # 规模缩减至 1%
+        self.sz = int(self.train.shape[0]/100)
 
         # val & test
         for data in self.val:
@@ -62,7 +62,7 @@ class dataset:
 
     def sample(self, domain=None, current_domain=None):
         if current_domain is None:
-            np.random.shuffle(self.train)   # Array洗牌，如果是多维，只洗First维，sub-array中的顺序不改变
+            np.random.shuffle(self.train)
 
             start_index = 0
             end_index = self.args.bsz

@@ -1,7 +1,8 @@
+#yangqiok
 import argparse
 import sys
 import logging
-from tiktok.load_data import dataset as ds_tiktok # tiktok 目录下的load_data.py 方法
+from tiktok.load_data import dataset as ds_tiktok
 import numpy as np
 import torch
 
@@ -30,7 +31,7 @@ def parse_args():
     parser.add_argument('--tolog', type=int, default=1,
                         help='0: output to stdout, 1: output to logfile')
     parser.add_argument('--bsz', type=int, default=512,
-                        help='batch size')                  # 批量大小 batch size
+                        help='batch size') # 批量大小
     parser.add_argument('--ssz', type=int, default=512,
                         help='size of test samples, including positive and negative samples')
     parser.add_argument('--neg_num', type=int, default=50,
@@ -41,7 +42,7 @@ def parse_args():
                         help='number of domains')
     parser.add_argument('--regi', type=float, default=0.0,
                         help='reg for item-item graph')
-    parser.add_argument('--device', nargs='?', default='cpu',
+    parser.add_argument('--device', nargs='?', default='cuda:0',
                         help='device')
     parser.add_argument('--num_epoch', type=int, default=500,
                         help='epoch number')
@@ -92,7 +93,7 @@ else:
 logging.info(args)
 
 if args.dataset == 'tiktok':
-    ds = ds_tiktok(logging, args)   # 加载训练集数据
+    ds = ds_tiktok(logging, args)
 else:
     raise Exception('no dataset' + args.dataset)
 

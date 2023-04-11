@@ -128,7 +128,7 @@ class InvRL(Model):
         self.max_net = None
 
         self.mask_dim = self.ds.feature.shape[1]
-        self.domain = torch.tensor(np.random.randint(0, self.args.num_domains, self.ds.train.shape[0])).to(self.args.device)
+        self.domain = torch.tensor(np.random.randint(0, self.args.num_domains, int(self.ds.train.shape[0]*0.01))).to(self.args.device)
         self.weight = torch.tensor(np.zeros(self.mask_dim, dtype=np.float32)).to(self.args.device)
         self.proj = None
 
@@ -172,7 +172,7 @@ class InvRL(Model):
         delta_threshold = int(self.ds.train.shape[0] * 0.01)
         print('delta_threshold %d' % delta_threshold)
         if self.args.reuse == 0:
-            self.domain = torch.tensor(np.random.randint(0, self.args.num_domains, self.ds.train.shape[0])).to(
+            self.domain = torch.tensor(np.random.randint(0, self.args.num_domains, int(self.ds.train.shape[0]*0.01))).to(
                 self.args.device)
             print('domain :', self.domain)
 
