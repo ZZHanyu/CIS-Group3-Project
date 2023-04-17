@@ -8,6 +8,7 @@ import scipy.sparse as sp
 import math
 from torch.autograd import grad
 from UltraGCN import UltraGCNNet
+from  UltraGCN_ERM import ERMNet
 
 
 def setup_seed(seed):   # 随机数生成
@@ -44,8 +45,8 @@ class FrontModel(torch.nn.Module):
         return wd2 * loss
 
     def init_frontmodel(self):
-        self.net.load_state_dict(torch.load(self.filename_pre), strict=False)
-        for p in self.net.parameters():
+        self.net.load_state_dict(torch.load(self.filename_pre), strict=False) # 从保存的模型中加载数据
+        for p in self.net.parameters(): # 对所有的参数禁用梯度
             p.requires_grad = False
         torch.nn.init.normal_(self.net.MLP.weight, mean=0.0, std=0.01)
         torch.nn.init.constant_(self.net.MLP.bias, 0)
@@ -61,30 +62,39 @@ class FrontModel(torch.nn.Module):
         optimizer2 = torch.optim.Adam(self.net.proj_params, lr=lr2, weight_decay=0)
 
         epochs = self.args.f_epoch
+        # 下面正式开始训练：
         for epoch in tqdm(range(epochs)): # 进度条插件
             generator = self.ds.sample(domain, current_domain)
+            # generator是数据集，
+            # sample 从domain这个列表只能够随即抽取 current_domain个函数
+
             loss_sum = 0.0
             while True:
                 self.net.train()
                 optimizer.zero_grad()  # 将模型的参数梯度初始化为0
                 optimizer2.zero_grad()
                 uid, iid, niid = next(generator)
+                # 加载下一条用户数据
                 if uid is None:
                     break
                 uid, iid, niid = uid.to(self.args.device), iid.to(self.args.device), niid.to(self.args.device)
                 # user identify / item 特征
-                loss = self.net(uid, iid, niid) + self.reg_loss() # uid iid niid 传入 UtralGCN network
+                loss = self.net(uid, iid, niid) + self.reg_loss()
                 loss_sum += loss.detach()
+                # 损失函数
 
                 loss.backward()
-                optimizer.step() # 更新所有参数
+                # 通过损失向后更新参数
+
+                optimizer.step()
+                # 更新所有参数
                 optimizer2.step()
 
             if epoch > 0 and (epoch + 1) % self.args.epoch == 0:
                 self.logging.info("Epoch %d: loss %s, U.norm %s, V.norm %s, MLP.norm %s" % (epoch + 1, loss_sum, torch.norm(self.net.U).item(), torch.norm(self.net.V).item(), torch.norm(self.net.MLP.weight).item()))
 
 
-class FeatureSelector(torch.nn.Module): # 第一步：分别提取每一张图片的特征，放进一个矩阵中
+class FeatureSelector(torch.nn.Module):
     def __init__(self, input_dim, sigma, args):
         super().__init__()
         setup_seed(2233)
@@ -225,10 +235,6 @@ class InvRL(Model):
         total_loss = total_loss + self.lam * reg_penalty
         return total_loss, penalty_detach, reg
 
-    def loss_e(self,loss_avg, grad_avg, grad_list): # 在这里开始写ERM的Loss function/惩罚界定
-        print("ERM start at here:")
-
-
     def init_backmodel(self):
         self.backmodel.load_state_dict(torch.load(self.filename_pre), strict=False)
         self.fs.renew()
@@ -303,6 +309,8 @@ class InvRL(Model):
 
 
     def solve(self, ite=3):
+        #   训练mask
+        #   其中，weight即为mask
         for i in range(ite):
             self.frontend()
             weight, density = self.backend()
@@ -312,7 +320,8 @@ class InvRL(Model):
 
         self.backmodel = None
 
-    def train(self):
+
+    def train_erm(self):
         if self.args.pretrained == 0:
             self.solve(self.args.ite)
             mask = self.weight
@@ -320,6 +329,84 @@ class InvRL(Model):
             mask = np.load(self.mask_filename, allow_pickle=True)
             mask = torch.from_numpy(mask)
         self.logging.info('mask %s' % mask)
+
+        #   取invariant representaion的反集：
+        variant_representation = torch.ones(mask.shape) - mask
+        print(variant_representation)
+
+        #   定义模型和参数
+        self.args.p_emb = self.args.p_embp
+        self.args.p_proj = self.args.p_ctx
+        self.net = ERMNet(self.ds, self.args, self.logging, mask.cpu()).to(self.args.device)
+
+        #   定义数据集
+        if self.args.dataset == 'tiktok':
+            self.init_word_emb(self.net)
+
+        #   定义学习率：
+        lr1, wd1 = self.args.p_emb
+        lr2, wd2 = self.args.p_proj
+        optimizer = torch.optim.Adam(self.net.emb_params, lr=lr1, weight_decay=0)
+        optimizer2 = torch.optim.Adam(self.net.proj_params, lr=lr2, weight_decay=0)
+
+
+        #   初始化参数：
+        epochs = self.args.num_epoch
+        val_max = 0.0
+        num_decreases = 0
+        max_epoch = 0
+        end_epoch = epochs
+        loss = 0.0
+        self.fs.eval()
+        assert self.fs.training is False
+
+
+        #   将变化环境抽离出来进行单独的ERM学习：
+        for epoch in tqdm(range(epochs)):
+            generator = self.ds.sample()
+            while True:
+                self.net.train()
+                optimizer.zero_grad()
+                optimizer2.zero_grad()
+                uid, iid, niid = next(generator)
+                if uid is None:
+                    break
+                uid, iid, niid = uid.to(self.args.device), iid.to(self.args.device), niid.to(self.args.device)
+
+                loss = self.net(uid, iid, niid, mask)
+
+                loss.backward()  # Computes the gradient of current tensor w.r.t. graph leaves.
+                optimizer.step()
+                optimizer2.step()
+
+            if epoch > 0 and epoch % self.args.epoch == 0:
+                self.logging.info("Epoch %d: loss %s, U.norm %s, V.norm %s, MLP.norm %s" % (
+                epoch, loss, torch.norm(self.net.U).item(), torch.norm(self.net.V).item(),
+                torch.norm(self.net.MLP.weight).item()))
+                self.val(), self.test()
+                if self.val_ndcg > val_max:  # 冒泡法
+                    val_max = self.val_ndcg
+                    max_epoch = epoch
+                    num_decreases = 0
+                    self.update()
+                else:
+                    if num_decreases > 40:
+                        end_epoch = epoch
+                        break
+                    else:
+                        num_decreases += 1
+
+
+def train(self):
+        if self.args.pretrained == 0:
+            self.solve(self.args.ite)
+            mask = self.weight
+        else:
+            mask = np.load(self.mask_filename, allow_pickle=True)
+            mask = torch.from_numpy(mask)
+        self.logging.info('mask %s' % mask)
+
+
         self.args.p_emb = self.args.p_embp
         self.args.p_proj = self.args.p_ctx
         self.net = UltraGCNNet(self.ds, self.args, self.logging, mask.cpu()).to(self.args.device)
@@ -341,7 +428,10 @@ class InvRL(Model):
         self.fs.eval()
         assert self.fs.training is False
 
+
+        #从这里开始 IRM学习：
         for epoch in tqdm(range(epochs)):   # epoch 是完整跑完一边数据集，训练过程不只跑一遍数据
+            #   这里的学习是对划分环境之后的学习
             generator = self.ds.sample()
             while True:
                 self.net.train()
@@ -385,3 +475,5 @@ class InvRL(Model):
         self.logging.info('----- test -----')
         self.logscore(self.max_test)
         self.logging.info('max_epoch %d:' % max_epoch)
+
+
