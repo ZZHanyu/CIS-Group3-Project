@@ -42,3 +42,8 @@
 >"python main.py --model UltraGCN --ssz 256 --bsz 256 --feat_dim 32".  
 >实测减小 ssz bsz feat_dim等参数的值可以降低显存利用率.  
 >3. 更新部分注释.   
+
+## 4/18 Zhy:
+>1. Fixed ERM Model Bugs.🐛   
+
+
