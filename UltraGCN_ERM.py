@@ -109,7 +109,10 @@ class ERMNet(torch.nn.Module):
         label_p = torch.ones(pred_p.size()).to(self.args.device)
         label_n = torch.zeros(pred_n.size()).to(self.args.device)
 
-        loss = nn.MSELoss()
+        #   ERM学习损失函数，分为两部分 1. 用户和item 2. 用户和context
+        #   这里我们通过平方和的根联结起来
+        loss_fn = nn.MSELoss()
+        loss = np.sqrt((loss_fn(pred_p,label_p))^2 + (loss_fn(pred_n,label_n))^2)
 
         return loss
 

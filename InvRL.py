@@ -396,6 +396,13 @@ class InvRL(Model):
                     else:
                         num_decreases += 1
 
+        self.logging.info("Epoch %d:" % end_epoch)
+        self.val(), self.test()
+        if self.val_ndcg > val_max:
+            val_max = self.val_ndcg
+            max_epoch = epochs
+            num_decreases = 0
+            self.update()
 
 def train(self):
         if self.args.pretrained == 0:
