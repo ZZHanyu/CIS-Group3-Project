@@ -404,83 +404,83 @@ class InvRL(Model):
             num_decreases = 0
             self.update()
 
-def train(self):
-        if self.args.pretrained == 0:
-            self.solve(self.args.ite)
-            mask = self.weight
-        else:
-            mask = np.load(self.mask_filename, allow_pickle=True)
-            mask = torch.from_numpy(mask)
-        self.logging.info('mask %s' % mask)
+    def train(self):
+            if self.args.pretrained == 0:
+                self.solve(self.args.ite)
+                mask = self.weight
+            else:
+                mask = np.load(self.mask_filename, allow_pickle=True)
+                mask = torch.from_numpy(mask)
+            self.logging.info('mask %s' % mask)
 
 
-        self.args.p_emb = self.args.p_embp
-        self.args.p_proj = self.args.p_ctx
-        self.net = UltraGCNNet(self.ds, self.args, self.logging, mask.cpu()).to(self.args.device)
+            self.args.p_emb = self.args.p_embp
+            self.args.p_proj = self.args.p_ctx
+            self.net = UltraGCNNet(self.ds, self.args, self.logging, mask.cpu()).to(self.args.device)
 
-        if self.args.dataset == 'tiktok':
-            self.init_word_emb(self.net)
+            if self.args.dataset == 'tiktok':
+                self.init_word_emb(self.net)
 
-        lr1, wd1 = self.args.p_emb
-        lr2, wd2 = self.args.p_proj
-        optimizer = torch.optim.Adam(self.net.emb_params, lr=lr1, weight_decay=0)
-        optimizer2 = torch.optim.Adam(self.net.proj_params, lr=lr2, weight_decay=0)
+            lr1, wd1 = self.args.p_emb
+            lr2, wd2 = self.args.p_proj
+            optimizer = torch.optim.Adam(self.net.emb_params, lr=lr1, weight_decay=0)
+            optimizer2 = torch.optim.Adam(self.net.proj_params, lr=lr2, weight_decay=0)
 
-        epochs = self.args.num_epoch
-        val_max = 0.0
-        num_decreases = 0
-        max_epoch = 0
-        end_epoch = epochs
-        loss = 0.0
-        self.fs.eval()
-        assert self.fs.training is False
-
-
-        #从这里开始 IRM学习：
-        for epoch in tqdm(range(epochs)):   # epoch 是完整跑完一边数据集，训练过程不只跑一遍数据
-            #   这里的学习是对划分环境之后的学习
-            generator = self.ds.sample()
-            while True:
-                self.net.train()
-                optimizer.zero_grad()
-                optimizer2.zero_grad()
-                uid, iid, niid = next(generator)
-                if uid is None:
-                    break
-                uid, iid, niid = uid.to(self.args.device), iid.to(self.args.device), niid.to(self.args.device)
-
-                loss = self.net(uid, iid, niid)
-
-                loss.backward()  # Computes the gradient of current tensor w.r.t. graph leaves.
-                optimizer.step()
-                optimizer2.step()
-
-            if epoch > 0 and epoch % self.args.epoch == 0:
-                self.logging.info("Epoch %d: loss %s, U.norm %s, V.norm %s, MLP.norm %s" % (epoch, loss, torch.norm(self.net.U).item(), torch.norm(self.net.V).item(), torch.norm(self.net.MLP.weight).item()))
-                self.val(), self.test()
-                if self.val_ndcg > val_max: # 冒泡法
-                    val_max = self.val_ndcg
-                    max_epoch = epoch
-                    num_decreases = 0
-                    self.update()
-                else:
-                    if num_decreases > 40:
-                        end_epoch = epoch
-                        break
-                    else:
-                        num_decreases += 1
-
-        self.logging.info("Epoch %d:" % end_epoch)
-        self.val(), self.test()
-        if self.val_ndcg > val_max:
-            val_max = self.val_ndcg
-            max_epoch = epochs
+            epochs = self.args.num_epoch
+            val_max = 0.0
             num_decreases = 0
-            self.update()
+            max_epoch = 0
+            end_epoch = epochs
+            loss = 0.0
+            self.fs.eval()
+            assert self.fs.training is False
 
-        self.logging.info("final:")
-        self.logging.info('----- test -----')
-        self.logscore(self.max_test)
-        self.logging.info('max_epoch %d:' % max_epoch)
+
+            #从这里开始 IRM学习：
+            for epoch in tqdm(range(epochs)):   # epoch 是完整跑完一边数据集，训练过程不只跑一遍数据
+                #   这里的学习是对划分环境之后的学习
+                generator = self.ds.sample()
+                while True:
+                    self.net.train()
+                    optimizer.zero_grad()
+                    optimizer2.zero_grad()
+                    uid, iid, niid = next(generator)
+                    if uid is None:
+                        break
+                    uid, iid, niid = uid.to(self.args.device), iid.to(self.args.device), niid.to(self.args.device)
+
+                    loss = self.net(uid, iid, niid)
+
+                    loss.backward()  # Computes the gradient of current tensor w.r.t. graph leaves.
+                    optimizer.step()
+                    optimizer2.step()
+
+                if epoch > 0 and epoch % self.args.epoch == 0:
+                    self.logging.info("Epoch %d: loss %s, U.norm %s, V.norm %s, MLP.norm %s" % (epoch, loss, torch.norm(self.net.U).item(), torch.norm(self.net.V).item(), torch.norm(self.net.MLP.weight).item()))
+                    self.val(), self.test()
+                    if self.val_ndcg > val_max: # 冒泡法
+                        val_max = self.val_ndcg
+                        max_epoch = epoch
+                        num_decreases = 0
+                        self.update()
+                    else:
+                        if num_decreases > 40:
+                            end_epoch = epoch
+                            break
+                        else:
+                            num_decreases += 1
+
+            self.logging.info("Epoch %d:" % end_epoch)
+            self.val(), self.test()
+            if self.val_ndcg > val_max:
+                val_max = self.val_ndcg
+                max_epoch = epochs
+                num_decreases = 0
+                self.update()
+
+            self.logging.info("final:")
+            self.logging.info('----- test -----')
+            self.logscore(self.max_test)
+            self.logging.info('max_epoch %d:' % max_epoch)
 
 

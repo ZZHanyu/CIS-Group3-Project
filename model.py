@@ -45,8 +45,8 @@ class Model:
         self.val_ndcg = N[2]
         self.logscore(self.val_scores)
 
-    def train(self):
-        raise Exception('no implementation')
+    #def train(self):
+    #    raise Exception('no implementation')
         # raise是指定异常名称并自定义提示语
 
     def train_erm(self):
