@@ -47,6 +47,7 @@ class Model:
 
     def train(self):
         raise Exception('no implementation')
+        # raise是指定异常名称并自定义提示语
 
     def full_accuracy(self):
         raise Exception('no implementation')

@@ -8,6 +8,7 @@ import torch
 
 from UltraGCN import UltraGCN
 from InvRL import InvRL
+from UltraGCN_ERM import ERMNet
 
 
 def parse_args():
@@ -122,3 +123,5 @@ else:
     raise Exception('unknown model type', args.model)
 
 model.train()
+if args.model == 'InvRL':
+    model.train_erm()
