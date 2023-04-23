@@ -182,7 +182,7 @@ class UltraGCN(Model):
         self.logging = logging
         self.args.wdi = 1
 
-        self.net = UltraGCNNet(self.ds, self.args, self.logging).to(self.args.device)
+        self.net = ERMNet(self.ds, self.args, self.logging).to(self.args.device)
 
         self.max_test = None
         self.max_net = None

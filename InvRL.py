@@ -322,17 +322,14 @@ class InvRL(Model):
 
 
     def train_erm(self):
-        if self.args.pretrained == 0:
-            self.solve(self.args.ite)
-            mask = self.weight
-        else:
-            mask = np.load(self.mask_filename, allow_pickle=True)
-            mask = torch.from_numpy(mask)
-        self.logging.info('mask %s' % mask)
-
-        #   取invariant representaion的反集：
+        mask = np.load(self.mask_filename, allow_pickle=True)
+        mask = torch.from_numpy(mask)
+        self.logging.info('ERM mask: from pre-train %s' % mask)
+        #   取invariant representaion的反集 :
+        #   (1-c)*整个环境：
         variant_representation = torch.ones(mask.shape) - mask
-        print(variant_representation)
+        print('*\tThis is variant representation:\n'+variant_representation)
+
 
         #   定义模型和参数
         self.args.p_emb = self.args.p_embp

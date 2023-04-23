@@ -86,6 +86,7 @@ def parse_args():
                         help='if reuse past_domains')
     parser.add_argument('--pretrained', type=int, default=0,
                         help='if pretrained')
+    # 是否有预训练？0为没有，其他为有预训练
     parser.add_argument('--wdi', type=int, default=2,
                         help='weight decay bias for item embedding')
     parser.add_argument('--sift', type=int, default=0,
@@ -122,6 +123,7 @@ elif args.model == 'InvRL':
 else:
     raise Exception('unknown model type', args.model)
 
-model.train()
 if args.model == 'InvRL':
+    print("---=== Start process ERM learning ===---\n")
     model.train_erm()
+model.train()
