@@ -127,6 +127,7 @@ class FeatureSelector(torch.nn.Module):
 class InvRL(Model):
     def __init__(self, ds, args, logging):
         super().__init__()
+        self.mask_filename = '/Users/taotao/Desktop/本地代码/mask.npy'
         setup_seed(2233)
         self.filename_pre = 'weights/%s_UGCN_best.pth' % args.dataset
         self.filename = 'weights/%s_InvRL_best.pth' % args.dataset
@@ -328,7 +329,7 @@ class InvRL(Model):
         #   取invariant representaion的反集 :
         #   (1-c)*整个环境：
         variant_representation = torch.ones(mask.shape) - mask
-        print('*\tThis is variant representation:\n'+variant_representation)
+        print('*\tThis is variant representation:\n',variant_representation)
 
 
         #   定义模型和参数
@@ -370,7 +371,7 @@ class InvRL(Model):
                     break
                 uid, iid, niid = uid.to(self.args.device), iid.to(self.args.device), niid.to(self.args.device)
 
-                loss = self.net(uid, iid, niid, mask)
+                loss = self.net(uid, iid, niid)
 
                 loss.backward()  # Computes the gradient of current tensor w.r.t. graph leaves.
                 optimizer.step()

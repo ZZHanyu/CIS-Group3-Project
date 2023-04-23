@@ -11,7 +11,7 @@ import torch.nn as nn
 
 
 class ERMNet(torch.nn.Module):
-    def __init__(self, ds, args, logging, mask=None, has_bias=True):
+    def __init__(self, ds, args, logging, mask, has_bias=True):
         super().__init__()
         self.ds = ds
         self.args = args
@@ -21,7 +21,8 @@ class ERMNet(torch.nn.Module):
         if mask is None or mask.shape[0] < 5:
             self.mask = torch.ones(self.ds.feature.shape[1]).to(self.args.device)
         else:
-            self.mask = torch.FloatTensor(mask).to(self.args.device)
+            self.mask = mask
+                #torch.FloatTensor(mask).to(self.args.device)
 
         self.U = torch.nn.Parameter(torch.rand(self.ds.usz, self.ds.dim + self.args.feat_dim), requires_grad=True)
         torch.nn.init.normal_(self.U, mean=0.0, std=0.01)
