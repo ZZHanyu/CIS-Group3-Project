@@ -46,6 +46,7 @@ class ERMNet(torch.nn.Module):
             self.t_feat = torch.nn.functional.normalize(self.t_feat, dim=1)
             self.num_modal += 1
         self.MLP = torch.nn.Linear(self.ds.feature.shape[1], self.args.feat_dim, bias=has_bias)
+        print("ds_feature = ",type(self.ds.feature))
         torch.nn.init.normal_(self.MLP.weight, mean=0.0, std=0.01)
         if self.has_bias:
             torch.nn.init.constant_(self.MLP.bias, 0)
@@ -113,7 +114,7 @@ class ERMNet(torch.nn.Module):
         #   ERM学习损失函数，分为两部分 1. 用户和item 2. 用户和context
         #   这里我们通过平方和的根联结起来
         loss_fn = nn.MSELoss()
-        loss = np.sqrt((loss_fn(pred_p,label_p))^2 + (loss_fn(pred_n,label_n))^2)
+        loss = np.sqrt( int( (loss_fn(pred_p,label_p))**2 ) + int( (loss_fn(pred_n,label_n))**2 ) )
 
         return loss
 
@@ -148,6 +149,7 @@ class ERMNet(torch.nn.Module):
             feat = torch.cat((feat, self.a_feat), dim=1)
         if self.t_feat is not None:
             feat = torch.cat((feat, self.t_feat), dim=1)
+        self.mask = self.mask.to(torch.float32)
         feat = feat * self.mask
         if fs is not None:
             feat = fs(feat)

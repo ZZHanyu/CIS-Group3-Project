@@ -25,9 +25,9 @@ class dataset:
         self.test = np.load('tiktok/test_full.npy', allow_pickle=True)
         self.user_item_dict = np.load('tiktok/user_item_dict.npy', allow_pickle=True).item()
 
-        self.usz = np.int64(36656)
+        self.usz = np.int64(36656)  # user size
         self.train[:, 1] -= self.usz
-        self.isz = np.int64(76085)
+        self.isz = np.int64(76085)  # item size
         self.dim = 64
         self.bsz = self.args.bsz
         self.sz = int(self.train.shape[0]/100)

@@ -331,7 +331,6 @@ class InvRL(Model):
         variant_representation = torch.ones(mask.shape) - mask
         print('*\tThis is variant representation:\n',variant_representation)
 
-
         #   定义模型和参数
         self.args.p_emb = self.args.p_embp
         self.args.p_proj = self.args.p_ctx
