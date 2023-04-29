@@ -329,7 +329,8 @@ class InvRL(Model):
         #   取invariant representaion的反集 :
         #   (1-c)*整个环境：
         variant_representation = torch.ones(mask.shape) - mask
-        print('*\tThis is variant representation:\n',variant_representation)
+
+        print('*\tShape of variant representation:\n',variant_representation.shape)
 
         #   定义模型和参数
         self.args.p_emb = self.args.p_embp

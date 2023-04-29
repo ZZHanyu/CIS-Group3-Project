@@ -1,7 +1,8 @@
 import torch
 import torch.nn as nn
-
 import math
+import numpy as np
+from tqdm import tqdm
 
 
 class BertSelfAttention(nn.Module):
@@ -21,9 +22,11 @@ class BertSelfAttention(nn.Module):
         self.dense = nn.Linear(config['hidden_size'], config['hidden_size'])
 
     def transpose_for_scores(self, x):
+        print("hi\t the x is = \n {}".format(x))
+        print("The shape of x = \n {}".format(x.shape))
         new_x_shape = x.size()[:-1] + (self.num_attention_heads, self.attention_head_size)
         x = x.view(*new_x_shape)
-        return x.permute(0, 2, 1, 3)
+        return x.permute(0, 2, 1, 3) # 把x维度的顺序更改，0，2，1，3分别为原始顺序index
 
     def forward(self, hidden_states):
         mixed_query_layer = self.query(hidden_states)  # [Batch_size x Seq_length x Hidden_size]
