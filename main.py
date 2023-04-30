@@ -128,9 +128,9 @@ def init_attention_data(feat):
     # print("DONE~\n")
     # fd.close()
 
-    print("Now total variant feature = \n {0} \n The size = ({1},{2})".format(variant_feature,
-                                                                              len(variant_feature[0]),
-                                                                              len(variant_feature[1])))
+    # print("Now total variant feature = \n {0} \n The size = ({1},{2})".format(variant_feature,
+    #                                                                           len(variant_feature[0]),
+    #                                                                           len(variant_feature[1])))
     return variant_feature
 
 def re_write_mask():
@@ -224,12 +224,12 @@ elif args.model == 'MultAttention':
     MultAtt = MA.BertSelfAttention(config)
     # print(MultAtt)
     embed_rand2 = torch.rand((1, 3, 4))  # input
-    print("the shape of orignal = \n {}".format(embed_rand2.shape))
+    # print("the shape of orignal = \n {}".format(embed_rand2.shape))
     embed_rand = variant_feat
     print(embed_rand)
     print(f"Embed Shape: {embed_rand.shape}")
     print(f"Embed Values:\n{embed_rand}")
-    output = MultAtt(embed_rand2)
+    output = MultAtt(embed_rand)
     print(f"Output Shape: {output.shape}")
     print(f"Output Values:\n{output}")
 else:
