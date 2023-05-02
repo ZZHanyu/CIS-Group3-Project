@@ -51,7 +51,7 @@ class dataset:
         self.t_data = torch.load('tiktok/feat_t.pt')
 
         self.feature = torch.cat((self.v_feat, self.a_feat, self.t_feat), dim=1)
-        print("The feature = \n",self.feature,"\nThe size is =\n",self.feature.shape)
+        # print("The feature = \n",self.feature,"\nThe size is =\n",self.feature.shape)
         # feature = np.concatenate([v_feat, a_feat, t_feat], axis=1)
         self.logging.info(self.feature.shape)
 

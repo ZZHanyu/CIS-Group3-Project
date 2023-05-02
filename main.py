@@ -109,7 +109,7 @@ def init_attention_data(feat):
     # time.sleep(5)
 
     variant_feature = []
-    print("Now start generting variant feature Matrix...\n")
+    print("***\tNow start generting variant feature Matrix...\n")
     for i in tqdm(range(fe.size(0))):
         variant_feature.append(np.multiply(fe[i], mask).tolist())
     variant_feature = torch.FloatTensor(variant_feature)
@@ -225,8 +225,10 @@ elif args.model == 'MultAttention':
     # print(MultAtt)
     embed_rand2 = torch.rand((1, 3, 4))  # input
     # print("the shape of orignal = \n {}".format(embed_rand2.shape))
+    variant_feat = variant_feat.unsqueeze(0)
     embed_rand = variant_feat
-    print(embed_rand)
+    # print("shape of input = {}\n".format(variant_feat.shape))
+    # print(embed_rand)
     print(f"Embed Shape: {embed_rand.shape}")
     print(f"Embed Values:\n{embed_rand}")
     output = MultAtt(embed_rand)
