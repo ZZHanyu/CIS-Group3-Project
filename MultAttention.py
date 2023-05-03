@@ -48,9 +48,9 @@ class BertSelfAttention(nn.Module):
         return  y
 
     def forward(self, hidden_states):
-        mixed_query_layer = self.query(hidden_states)  # [Batch_size x Seq_length x Hidden_size]
-        mixed_key_layer = self.key(hidden_states)  # [Batch_size x Seq_length x Hidden_size]
-        mixed_value_layer = self.value(hidden_states)  # [Batch_size x Seq_length x Hidden_size]
+        mixed_query_layer = self.query(hidden_states).to(self.device)  # [Batch_size x Seq_length x Hidden_size]
+        mixed_key_layer = self.key(hidden_states).to(self.device)  # [Batch_size x Seq_length x Hidden_size]
+        mixed_value_layer = self.value(hidden_states).to(self.device)  # [Batch_size x Seq_length x Hidden_size]
         # print("1. Mixed_value_layer = {}\n".format(mixed_value_layer.shape))
         # print("2. Mixed_key_layer = {}\n".format(mixed_key_layer.shape))
         # print("3. Mixed_value_layer = {}\n".format(mixed_query_layer))
@@ -62,8 +62,11 @@ class BertSelfAttention(nn.Module):
         value_layer = self.transpose_for_scores(mixed_value_layer).to(self.device)  # [Batch_size x Num_of_heads x Seq_length x Head_size]
 
         attention_scores = torch.matmul(query_layer, key_layer.transpose(-1,-2)).to(self.device)  # [Batch_size x Num_of_heads x Seq_length x Seq_length]
-        attention_scores = attention_scores / math.sqrt(self.attention_head_size).to(self.device)   # [Batch_size x Num_of_heads x Seq_length x Seq_length]
+        # torch.cuda.empty_cache()
+        attention_scores = (attention_scores / math.sqrt(self.attention_head_size)).to(self.device)   # [Batch_size x Num_of_heads x Seq_length x Seq_length]
+        # torch.cuda.empty_cache()
         attention_probs = nn.Softmax(dim=-1)(attention_scores).to(self.device)   # [Batch_size x Num_of_heads x Seq_length x Seq_length]
+        # torch.cuda.empty_cache()
         context_layer = torch.matmul(attention_probs,value_layer).to(self.device)  # [Batch_size x Num_of_heads x Seq_length x Head_size]
 
         context_layer = context_layer.permute(0, 2, 1,3).contiguous()  # [Batch_size x Seq_length x Num_of_heads x Head_size]

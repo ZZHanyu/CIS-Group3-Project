@@ -183,6 +183,19 @@ def re_write_mask():
     np.save('/Users/taotao/Desktop/本地代码',masks)
     print("save .npy done")
 
+
+def del_tensor_ele_n(arr, index, n):
+    """
+    arr: 输入tensor
+    index: 需要删除位置的索引
+    n: 从index开始，需要删除的行数
+    """
+    arr1 = arr[0:index]
+    arr2 = arr[index+n:]
+    return torch.cat((arr1,arr2),dim=0)
+
+
+
 args = parse_args()
 
 args.p_emb = eval(args.p_emb)
@@ -220,15 +233,12 @@ elif args.model == 'MultAttention':
         "num_of_attention_heads": 2,# 这个属性是你想要划分出的几个层次
         "hidden_size": 384 # 隐藏特征数
     }
-    # print('\t Num_of_attention_heads: 2\n\thidden_size: 4\n')
     MultAtt = MA.BertSelfAttention(config)
-    # print(MultAtt)
+    variant_feat = del_tensor_ele_n(variant_feat,1,2)
     embed_rand2 = torch.rand((1, 3, 4))  # input
-    # print("the shape of orignal = \n {}".format(embed_rand2.shape))
-    variant_feat = variant_feat.unsqueeze(0)
-    embed_rand = variant_feat
-    # print("shape of input = {}\n".format(variant_feat.shape))
-    # print(embed_rand)
+    data_list = variant_feat.chunk(21,0)
+    variant_feat = torch.stack(data_list,0)
+    embed_rand = variant_feat.to(args.device)
     print(f"Embed Shape: {embed_rand.shape}")
     print(f"Embed Values:\n{embed_rand}")
     output = MultAtt(embed_rand)
