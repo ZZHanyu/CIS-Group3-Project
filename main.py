@@ -5,15 +5,13 @@ import logging
 from tiktok.load_data import dataset as ds_tiktok
 import numpy as np
 import torch
-import MultAttention as MA
 
 from UltraGCN import UltraGCN
 from InvRL import InvRL
+from MultAttention import BertSelfAttention
 from UltraGCN_ERM import ERMNet
 import time
 from tqdm import tqdm
-
-
 
 def parse_args():
     # argsparse是python的命令行解析的标准模块，内置于python，不需要安装。这个库可以让我们直接在命令行中就可以向程序中传入参数并让程序运行。
@@ -97,42 +95,6 @@ def parse_args():
     parser.add_argument('--sift', type=int, default=0,
                         help='if sift pos items')
     return parser.parse_args()
-
-
-def init_attention_data(feat):
-    fe = feat
-
-    mask = np.load('/Users/taotao/Desktop/本地代码/mask.npy', allow_pickle=True)
-    mask = torch.from_numpy(mask)
-
-    # print("hi\tthe size of fe[0] = {}".format(fe.size(0)))
-    # time.sleep(5)
-
-    variant_feature = []
-    print("***\tNow start generting variant feature Matrix...\n")
-    for i in tqdm(range(fe.size(0))):
-        variant_feature.append(np.multiply(fe[i], mask).tolist())
-    variant_feature = torch.FloatTensor(variant_feature)
-
-    # 写文件的block:
-    # fd = open('variant_feature.txt','w')
-    # print("Now start wrire to file...\n")
-    # for i in tqdm(range(fe.size(0))):
-    #     s = variant_feature[i].tolist()
-    #     for j in range(len(s)):
-    #         if type(s[j]) != str:
-    #             s[j] = str(s[j])
-    #
-    #     strs = ' '.join(s)
-    #     fd.write(strs)
-    # print("DONE~\n")
-    # fd.close()
-
-    # print("Now total variant feature = \n {0} \n The size = ({1},{2})".format(variant_feature,
-    #                                                                           len(variant_feature[0]),
-    #                                                                           len(variant_feature[1])))
-    return variant_feature
-
 def re_write_mask():
     get_size = np.load()
 
@@ -183,21 +145,7 @@ def re_write_mask():
     np.save('/Users/taotao/Desktop/本地代码',masks)
     print("save .npy done")
 
-
-def del_tensor_ele_n(arr, index, n):
-    """
-    arr: 输入tensor
-    index: 需要删除位置的索引
-    n: 从index开始，需要删除的行数
-    """
-    arr1 = arr[0:index]
-    arr2 = arr[index+n:]
-    return torch.cat((arr1,arr2),dim=0)
-
-
-
 args = parse_args()
-
 args.p_emb = eval(args.p_emb)
 args.p_embp = eval(args.p_embp)
 args.p_ctx = eval(args.p_ctx)
@@ -214,40 +162,32 @@ else:   #   输出output至log文件
 logging.info(args)
 if args.dataset == 'tiktok':
     ds = ds_tiktok(logging, args)
-    #print("***\tThe shape of dataset = ",ds)
+    fe = ds.get_data()
+    # feature is a torch
+    # print("***\tThe shape of dataset = ",ds)
     # feature size = [76085, 384]
     # 76085 条, every feature have 384 特征
-    fe = ds.get_data()
+
 else:
     raise Exception('no dataset' + args.dataset)
-
-variant_feat = init_attention_data(fe)
 
 if args.model == 'UltraGCN':
     model = UltraGCN(ds, args, logging)
 elif args.model == 'InvRL':
     model = InvRL(ds, args, logging)
-elif args.model == 'MultAttention':
+elif args.model == 'Attention':
     print("Now Modifing The Config of model:\n")
     config = {
         "num_of_attention_heads": 2,# 这个属性是你想要划分出的几个层次
         "hidden_size": 384 # 隐藏特征数
     }
-    MultAtt = MA.BertSelfAttention(config)
-    variant_feat = del_tensor_ele_n(variant_feat,1,2)
-    embed_rand2 = torch.rand((1, 3, 4))  # input
-    data_list = variant_feat.chunk(21,0)
-    variant_feat = torch.stack(data_list,0)
-    embed_rand = variant_feat.to(args.device)
-    print(f"Embed Shape: {embed_rand.shape}")
-    print(f"Embed Values:\n{embed_rand}")
-    output = MultAtt(embed_rand)
-    print(f"Output Shape: {output.shape}")
-    print(f"Output Values:\n{output}")
+    model = BertSelfAttention(config, fe, args, logging).to(args.device)
+
+    # if args.model == 'InvRL':
+    #     print("---=== Start process ERM learning ===---\n")
+    #     model.train_erm()
 else:
     raise Exception('unknown model type', args.model)
 
-if args.model == 'InvRL':
-    print("---=== Start process ERM learning ===---\n")
-    model.train_erm()
-model.train()
+
+# model.train()

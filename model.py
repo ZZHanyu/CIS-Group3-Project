@@ -67,7 +67,10 @@ class Model:
     # 遍历数据得到一个精准度得分
 
     def full_accuracy(self, val_data, step=2000, topk=10):
-        self.net.eval()
+        self.net.eval() # 评估神经网络
+        # 在训练模型时会在前面加上：model.train()
+        # 在测试模型时在前面使用：model.eval()
+
         start_index = 0
         end_index = self.ds.usz if step is None else step
 
@@ -76,7 +79,7 @@ class Model:
             items = torch.LongTensor(range(self.ds.isz))
             while self.ds.usz >= end_index > start_index:
                 users = torch.LongTensor(range(start_index, end_index))
-                score_matrix = self.predict(users, items, True)
+                score_matrix = self.predict(users, items, True) # 通过训练好的网络中的predict函数进行预测
 
                 for row, col in self.ds.user_item_dict.items():
                     if start_index <= row < end_index:
@@ -84,7 +87,7 @@ class Model:
                         col = torch.LongTensor(list(col)) - self.ds.usz
                         score_matrix[row][col] = 1e-5
 
-                _, index_of_rank_list = torch.topk(score_matrix, topk)
+                _, index_of_rank_list = torch.topk(score_matrix, topk) # topk = 10，得到基于默认最后一个维度前10排行榜
                 all_index_of_rank_list = torch.cat((all_index_of_rank_list, index_of_rank_list.cpu()), dim=0)
                 start_index = end_index
 

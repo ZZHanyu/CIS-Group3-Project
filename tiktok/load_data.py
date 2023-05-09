@@ -27,7 +27,7 @@ class dataset:
 
         self.usz = np.int64(36656)  # user size
         self.train[:, 1] -= self.usz
-        self.isz = np.int64(76085)  # item size
+        self.isz = np.int64(76083)  # item size
         self.dim = 64
         self.bsz = self.args.bsz
         self.sz = int(self.train.shape[0]/100)
@@ -51,12 +51,27 @@ class dataset:
         self.t_data = torch.load('tiktok/feat_t.pt')
 
         self.feature = torch.cat((self.v_feat, self.a_feat, self.t_feat), dim=1)
+        self.feature = self.del_tensor_ele_n(self.feature,1,2)
         # print("The feature = \n",self.feature,"\nThe size is =\n",self.feature.shape)
         # feature = np.concatenate([v_feat, a_feat, t_feat], axis=1)
         self.logging.info(self.feature.shape)
+        self.feature_after_change = 0
 
     def get_data(self):
         return self.feature
+
+    def change_data(self,fe):
+        self.feature_after_change = fe
+
+    def del_tensor_ele_n(arr, index, n):
+        """
+        arr: 输入tensor
+        index: 需要删除位置的索引
+        n: 从index开始，需要删除的行数
+        """
+        arr1 = arr[0:index]
+        arr2 = arr[index + n:]
+        return torch.cat((arr1, arr2), dim=0)
 
     def sample_neg(self, bsz):
         neg_candidates = np.arange(self.isz)

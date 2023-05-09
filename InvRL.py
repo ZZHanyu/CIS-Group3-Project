@@ -127,6 +127,8 @@ class FeatureSelector(torch.nn.Module):
 class InvRL(Model):
     def __init__(self, ds, args, logging):
         super().__init__()
+        # 继承 Model Class中的全部内容，并且需要定义额外的属性
+        # 在这里Model是父类，InvRL是其子类
         self.mask_filename = '/Users/taotao/Desktop/本地代码/mask.npy'
         setup_seed(2233)
         self.filename_pre = 'weights/%s_UGCN_best.pth' % args.dataset
@@ -381,7 +383,7 @@ class InvRL(Model):
                 self.logging.info("Epoch %d: loss %s, U.norm %s, V.norm %s, MLP.norm %s" % (
                 epoch, loss, torch.norm(self.net.U).item(), torch.norm(self.net.V).item(),
                 torch.norm(self.net.MLP.weight).item()))
-                self.val(), self.test()
+                self.val(), self.test() # 检验模型
                 if self.val_ndcg > val_max:  # 冒泡法
                     val_max = self.val_ndcg
                     max_epoch = epoch
