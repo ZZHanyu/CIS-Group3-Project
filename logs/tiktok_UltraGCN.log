@@ -1262,9 +1262,3 @@
 2023-04-11 12:30:57,264 :: INFO :: Recall [0.009814784808470832, 0.03484088029607074, 0.05497031252068056]
 2023-04-11 12:30:57,264 :: INFO :: ndcg [0.01684043888858562, 0.03855871439477881, 0.050402821703324927]
 2023-04-11 12:30:57,264 :: INFO :: max_epoch 310:
-2023-05-03 10:19:05,971 :: INFO :: log info to logs/tiktok_UltraGCN.log
-2023-05-03 10:19:05,972 :: INFO :: Namespace(alpha=1.0, b_epoch=40, bsz=512, dataset='tiktok', device='cpu', epoch=5, f_epoch=20, f_max=10, feat_dim=64, ite=5, lam=0.1, lr=0.001, model='UltraGCN', neg_num=50, neighbor_num=10, num_domains=10, num_epoch=500, p_ctx=[0.001, 0.1], p_emb=[0.001, 0.0001], p_embp=[0.001, 0.0001], p_proj=[0.001, 0.01], p_w=[1, 1, 1, 1], pretrained=0, regi=0.0, reuse=0, sift=0, sigma=0.01, ssz=512, tolog=1, wdi=2)
-2023-05-03 10:19:07,803 :: INFO :: torch.Size([76085, 384])
-2023-05-03 10:21:55,000 :: INFO :: log info to logs/tiktok_UltraGCN.log
-2023-05-03 10:21:55,001 :: INFO :: Namespace(alpha=1.0, b_epoch=40, bsz=512, dataset='tiktok', device='cpu', epoch=5, f_epoch=20, f_max=10, feat_dim=64, ite=5, lam=0.1, lr=0.001, model='UltraGCN', neg_num=50, neighbor_num=10, num_domains=10, num_epoch=500, p_ctx=[0.001, 0.1], p_emb=[0.001, 0.0001], p_embp=[0.001, 0.0001], p_proj=[0.001, 0.01], p_w=[1, 1, 1, 1], pretrained=0, regi=0.0, reuse=0, sift=0, sigma=0.01, ssz=512, tolog=1, wdi=2)
-2023-05-03 10:21:56,864 :: INFO :: torch.Size([76085, 384])

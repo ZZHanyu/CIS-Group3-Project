@@ -332,7 +332,7 @@ class InvRL(Model):
         #   (1-c)*整个环境：
         variant_representation = torch.ones(mask.shape) - mask
 
-        print('*\tShape of variant representation:\n',variant_representation.shape)
+        print('*\tThe Variant Mask=\n',variant_representation)
 
         #   定义模型和参数
         self.args.p_emb = self.args.p_embp
@@ -403,6 +403,10 @@ class InvRL(Model):
             max_epoch = epochs
             num_decreases = 0
             self.update()
+        self.logging.info("final:")
+        self.logging.info('----- test -----')
+        self.logscore(self.max_test)
+        self.logging.info('max_epoch %d:' % max_epoch)
 
     def train(self):
             if self.args.pretrained == 0:

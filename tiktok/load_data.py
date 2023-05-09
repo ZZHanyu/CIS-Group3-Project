@@ -55,15 +55,14 @@ class dataset:
         # print("The feature = \n",self.feature,"\nThe size is =\n",self.feature.shape)
         # feature = np.concatenate([v_feat, a_feat, t_feat], axis=1)
         self.logging.info(self.feature.shape)
-        self.feature_after_change = 0
 
     def get_data(self):
         return self.feature
 
     def change_data(self,fe):
-        self.feature_after_change = fe
+        self.feature = fe
 
-    def del_tensor_ele_n(arr, index, n):
+    def del_tensor_ele_n(self, arr, index, n):
         """
         arr: 输入tensor
         index: 需要删除位置的索引

@@ -1,17 +1,13 @@
-#yangqiok
 import argparse
-import sys
 import logging
 from tiktok.load_data import dataset as ds_tiktok
 import numpy as np
-import torch
-
 from UltraGCN import UltraGCN
 from InvRL import InvRL
 from MultAttention import BertSelfAttention
-from UltraGCN_ERM import ERMNet
-import time
-from tqdm import tqdm
+
+# 位于MultAttention.py的Line 47 和 InvRL.py的Line 132行的路径修改
+# C:\\Users\\vipuser\\Desktop\\CIS-Group3-Project-main\\mask.npy
 
 def parse_args():
     # argsparse是python的命令行解析的标准模块，内置于python，不需要安装。这个库可以让我们直接在命令行中就可以向程序中传入参数并让程序运行。
@@ -176,12 +172,16 @@ if args.model == 'UltraGCN':
 elif args.model == 'InvRL':
     model = InvRL(ds, args, logging)
 elif args.model == 'Attention':
-    print("Now Modifing The Config of model:\n")
+    print("***\tNow Modifing The Config of model\t***\n")
     config = {
         "num_of_attention_heads": 2,# 这个属性是你想要划分出的几个层次
         "hidden_size": 384 # 隐藏特征数
     }
-    model = BertSelfAttention(config, fe, args, logging).to(args.device)
+    model = BertSelfAttention(config, ds, args, logging).to(args.device)
+
+    print("***\tNow Start ERM Learning\t***\n")
+    model = InvRL(ds, args, logging)
+    model.train_erm()
 
     # if args.model == 'InvRL':
     #     print("---=== Start process ERM learning ===---\n")
