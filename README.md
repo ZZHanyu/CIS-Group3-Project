@@ -42,3 +42,10 @@
 >"python main.py --model UltraGCN --ssz 256 --bsz 256 --feat_dim 32".  
 >实测减小 ssz bsz feat_dim等参数的值可以降低显存利用率.  
 >3. 更新部分注释.   
+
+## 5/09 Attention Modfiy:
+
+>- 完成对Attention Model和ERM Learning的拼接.    
+>- ERM学习通过Attention对Variant环境的划分结果，衡量标准为ndcg.    
+>- 2080Ti平台运行代码："python main.py --model Attention --ssz 128 --bsz 256 --feat_dim 32".    
+>- 位于MultAttention.py的Line 47 和 InvRL.py的Line 132行的路径修改，示例路径："C:\\Users\\vipuser\\Desktop\\CIS-Group3-Project-main\\mask.npy".     
