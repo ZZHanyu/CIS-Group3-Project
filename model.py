@@ -22,7 +22,7 @@ class Model:
         P = []
         R = []
         N = []
-        for i in [1, 5, 10]:
+        for i in [1, 5, 10, 50]:
             precision, recall, ndcg_score = self.full_accuracy(self.ds.test, step=self.args.ssz, topk=i)
             P.append(precision)
             R.append(recall)
@@ -35,7 +35,7 @@ class Model:
         P = []
         R = []
         N = []
-        for i in [1, 5, 10]:
+        for i in [1, 5, 10, 50]:
             precision, recall, ndcg_score = self.full_accuracy(self.ds.val, step=self.args.ssz, topk=i)
             P.append(precision)
             R.append(recall)
@@ -49,7 +49,7 @@ class Model:
     #    raise Exception('no implementation')
         # raise是指定异常名称并自定义提示语
 
-    def train_erm(self):
+    def Varant_Learn_Process(self):
         raise Exception('no implementation')
 
     def full_accuracy(self):

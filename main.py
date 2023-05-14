@@ -96,7 +96,6 @@ def parse_args():
                         help='if sift pos items')
     return parser.parse_args()
 
-
 args = parse_args()
 args.p_emb = eval(args.p_emb)
 args.p_embp = eval(args.p_embp)
@@ -125,24 +124,22 @@ else:
 
 if args.model == 'UltraGCN':
     model = UltraGCN(ds, args, logging)
-elif args.model == 'InvRL':
+    model.train()
+elif args.model == 'IRAT':
     model = InvRL(ds, args, logging)
-elif args.model == 'Attention':
+    model.Inv_Learn_Process()
+
     print("Now Modifing The Config of model:\n")
     config = {
-        "num_of_attention_heads": 2,# 这个属性是你想要划分出的几个层次
-        "hidden_size": 384 # 隐藏特征数
+        "num_of_attention_heads": 2,  # 这个属性是你想要划分出的几个层次
+        "hidden_size": 384  # 隐藏特征数
     }
     model = BertSelfAttention(config, ds, args, logging).to(args.device)
 
     print("***\tNow Start ERM Learning\t***\n")
     model = InvRL(ds, args, logging)
-    model.train_erm()
-    # if args.model == 'InvRL':
-    #     print("---=== Start process ERM learning ===---\n")
-    #     model.train_erm()
+    model.Varant_Learn_Process()
+
+
 else:
     raise Exception('unknown model type', args.model)
-
-
-model.train()

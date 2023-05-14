@@ -141,7 +141,7 @@ class InvRL(Model):
         self.max_net = None
 
         self.mask_dim = self.ds.feature.shape[1]
-        self.domain = torch.tensor(np.random.randint(0, self.args.num_domains, int(self.ds.train.shape[0]*0.01))).to(self.args.device)
+        self.domain = torch.tensor(np.random.randint(0, self.args.num_domains, int(self.ds.Inv_Learn_Process.shape[0] * 0.01))).to(self.args.device)
         self.weight = torch.tensor(np.zeros(self.mask_dim, dtype=np.float32)).to(self.args.device)
         self.proj = None
 
@@ -162,7 +162,7 @@ class InvRL(Model):
             start_index = 0
             end_index = self.args.ssz
             while start_index < end_index <= self.ds.sz:
-                sub = torch.from_numpy(self.ds.train[start_index: end_index, :]).to(self.args.device)
+                sub = torch.from_numpy(self.ds.Inv_Learn_Process[start_index: end_index, :]).to(self.args.device)
                 pred = self.net_e.predict(sub[:, 0], sub[:, 1])
                 if pred is None:
                     pred = torch.zeros_like(sub[:, 0])
@@ -182,10 +182,10 @@ class InvRL(Model):
         # 真正开始 划分环境
         self.logging.info('----- frontend -----')
         ite = 0
-        delta_threshold = int(self.ds.train.shape[0] * 0.01)
+        delta_threshold = int(self.ds.Inv_Learn_Process.shape[0] * 0.01)
         print('delta_threshold %d' % delta_threshold)
         if self.args.reuse == 0:
-            self.domain = torch.tensor(np.random.randint(0, self.args.num_domains, int(self.ds.train.shape[0]*0.01))).to(
+            self.domain = torch.tensor(np.random.randint(0, self.args.num_domains, int(self.ds.Inv_Learn_Process.shape[0] * 0.01))).to(
                 self.args.device)
             print('domain :', self.domain)
 
@@ -324,7 +324,7 @@ class InvRL(Model):
         self.backmodel = None
 
 
-    def train_erm(self):
+    def Varant_Learn_Process(self):
         mask = np.load(self.mask_filename, allow_pickle=True)
         mask = torch.from_numpy(mask)
         self.logging.info('ERM mask: from pre-train %s' % mask)
@@ -408,16 +408,16 @@ class InvRL(Model):
         self.logscore(self.max_test)
         self.logging.info('max_epoch %d:' % max_epoch)
 
-    def train(self):
+    def Inv_Learn_Process(self):
             if self.args.pretrained == 0:
                 self.solve(self.args.ite)
                 mask = self.weight
-                np.save('C:\\Users\\vipuser\\Desktop\\509run', mask.cpu())
+                np.save('C:\\Users\\vipuser\\Desktop\\cisprogram\\mask.npy', mask.cpu())
             else:
                 mask = np.load(self.mask_filename, allow_pickle=True)
                 mask = torch.from_numpy(mask)
-            self.logging.info('mask %s' % mask)
 
+            self.logging.info('mask %s' % mask)
 
             self.args.p_emb = self.args.p_embp
             self.args.p_proj = self.args.p_ctx
@@ -487,5 +487,6 @@ class InvRL(Model):
             self.logging.info('----- test -----')
             self.logscore(self.max_test)
             self.logging.info('max_epoch %d:' % max_epoch)
+
 
 
