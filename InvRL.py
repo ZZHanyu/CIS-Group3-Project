@@ -129,7 +129,7 @@ class InvRL(Model):
         super().__init__()
         # 继承 Model Class中的全部内容，并且需要定义额外的属性
         # 在这里Model是父类，InvRL是其子类
-        self.mask_filename = '/Users/taotao/Desktop/本地代码/mask.npy'
+        self.mask_filename = 'C:\\Users\\vipuser\\Desktop\\509run\\mask.npy'
         setup_seed(2233)
         self.filename_pre = 'weights/%s_UGCN_best.pth' % args.dataset
         self.filename = 'weights/%s_InvRL_best.pth' % args.dataset
@@ -412,6 +412,7 @@ class InvRL(Model):
             if self.args.pretrained == 0:
                 self.solve(self.args.ite)
                 mask = self.weight
+                np.save('C:\\Users\\vipuser\\Desktop\\509run', mask.cpu())
             else:
                 mask = np.load(self.mask_filename, allow_pickle=True)
                 mask = torch.from_numpy(mask)

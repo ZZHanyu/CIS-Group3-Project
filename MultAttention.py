@@ -20,6 +20,7 @@ class BertSelfAttention(nn.Module):
         data_list = variant_feat.chunk(21, 0)
         variant_feat = torch.stack(data_list, 0)
         embed_rand = variant_feat
+        # embed_rand = embed_rand
         print(f"Embed Shape: {embed_rand.shape}")
         print(f"Embed Values:\n{embed_rand}")
 
@@ -39,42 +40,9 @@ class BertSelfAttention(nn.Module):
 
         self.dense = nn.Linear(config['hidden_size'], config['hidden_size'])
 
+
         self.hidden_states = embed_rand
         self.forward()
-
-    def init_data(self):
-        fe = self.feat
-        mask = np.load('/Users/taotao/Desktop/本地代码/mask.npy', allow_pickle=True)
-        mask = torch.from_numpy(mask)
-
-        # print("hi\tthe size of fe[0] = {}".format(fe.size(0)))
-        # time.sleep(5)
-
-        variant_feature = []
-        print("***\tNow start generting variant feature Matrix...\n")
-        for i in tqdm(range(fe.size(0))):
-            variant_feature.append(np.multiply(fe[i], mask).tolist())
-        variant_feature = torch.FloatTensor(variant_feature)
-
-        # 文件IO
-        # fd = open('variant_feature.txt','w')
-        # print("Now start wrire to file...\n")
-        # for i in tqdm(range(fe.size(0))):
-        #     s = variant_feature[i].tolist()
-        #     for j in range(len(s)):
-        #         if type(s[j]) != str:
-        #             s[j] = str(s[j])
-        #
-        #     strs = ' '.join(s)
-        #     fd.write(strs)
-        # print("DONE~\n")
-        # fd.close()
-
-        # print("Now total variant feature = \n {0} \n The size = ({1},{2})".format(variant_feature,
-        #                                                                           len(variant_feature[0]),
-        #
-        #                                                                           len(variant_feature[1])))
-        return variant_feature
 
 
     def transpose_for_scores(self, x):
@@ -131,7 +99,44 @@ class BertSelfAttention(nn.Module):
         print(f"Feature = {self.feat}")
         print("***\tAttention Model Sucessfully\t***\n")
 
-        transfer_output = torch.mul(transfer_output,self.feat)
+        transfer_output = torch.mul(transfer_output, self.feat)
         self.ds.change_data(transfer_output)
+
         return transfer_output
+
+    def init_data(self):
+        fe = self.feat
+        mask = np.load('C:\\Users\\vipuser\\Desktop\\509run\\mask.npy', allow_pickle=True)
+        mask = torch.from_numpy(mask)
+
+        # print("hi\tthe size of fe[0] = {}".format(fe.size(0)))
+        # time.sleep(5)
+
+        variant_feature = []
+        print("***\tNow start generting variant feature Matrix...\n")
+        for i in tqdm(range(fe.size(0))):
+            variant_feature.append(np.multiply(fe[i], mask).tolist())
+        variant_feature = torch.FloatTensor(variant_feature)
+
+        # 文件IO
+        # fd = open('variant_feature.txt','w')
+        # print("Now start wrire to file...\n")
+        # for i in tqdm(range(fe.size(0))):
+        #     s = variant_feature[i].tolist()
+        #     for j in range(len(s)):
+        #         if type(s[j]) != str:
+        #             s[j] = str(s[j])
+        #
+        #     strs = ' '.join(s)
+        #     fd.write(strs)
+        # print("DONE~\n")
+        # fd.close()
+
+        # print("Now total variant feature = \n {0} \n The size = ({1},{2})".format(variant_feature,
+        #                                                                           len(variant_feature[0]),
+        #
+        #                                                                           len(variant_feature[1])))
+        self.ds.change_data(variant_feature)
+        return variant_feature
+
 

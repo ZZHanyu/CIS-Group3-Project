@@ -52,7 +52,6 @@ class dataset:
 
         self.feature = torch.cat((self.v_feat, self.a_feat, self.t_feat), dim=1)
         self.feature = self.del_tensor_ele_n(self.feature,1,2)
-        # print("The feature = \n",self.feature,"\nThe size is =\n",self.feature.shape)
         # feature = np.concatenate([v_feat, a_feat, t_feat], axis=1)
         self.logging.info(self.feature.shape)
 
@@ -96,10 +95,10 @@ class dataset:
 
                 yield sub_train_list[:, 0], sub_train_list[:, 1], neg_items
             yield None, None, None
-        else:
+        else:   # current domain != NULL:
             temp_pos = torch.where(domain == current_domain)[0]
             temp_pos = temp_pos.cpu().numpy()
-            temp_train = self.train[temp_pos, :]
+            temp_train = self.train[temp_pos, :] # 截取下一段训练集
             np.random.shuffle(temp_train)
             sz = temp_train.shape[0]
 

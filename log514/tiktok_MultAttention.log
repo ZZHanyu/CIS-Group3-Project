@@ -1,0 +1,131 @@
+2023-04-23 21:26:26,862 :: INFO :: log info to logs/tiktok_MultAttention.log
+2023-04-23 21:26:26,863 :: INFO :: Namespace(alpha=1.0, b_epoch=40, bsz=128, dataset='tiktok', device='cpu', epoch=5, f_epoch=20, f_max=10, feat_dim=64, ite=5, lam=0.1, lr=0.001, model='MultAttention', neg_num=50, neighbor_num=10, num_domains=10, num_epoch=500, p_ctx=[0.001, 0.1], p_emb=[0.001, 0.0001], p_embp=[0.001, 0.0001], p_proj=[0.001, 0.01], p_w=[1, 1, 1, 1], pretrained=1, regi=0.0, reuse=0, sift=0, sigma=0.01, ssz=128, tolog=1, wdi=2)
+2023-04-23 21:26:28,648 :: INFO :: torch.Size([76085, 384])
+2023-04-23 21:27:09,784 :: INFO :: log info to logs/tiktok_MultAttention.log
+2023-04-23 21:27:09,784 :: INFO :: Namespace(alpha=1.0, b_epoch=40, bsz=128, dataset='tiktok', device='cpu', epoch=5, f_epoch=20, f_max=10, feat_dim=64, ite=5, lam=0.1, lr=0.001, model='MultAttention', neg_num=50, neighbor_num=10, num_domains=10, num_epoch=500, p_ctx=[0.001, 0.1], p_emb=[0.001, 0.0001], p_embp=[0.001, 0.0001], p_proj=[0.001, 0.01], p_w=[1, 1, 1, 1], pretrained=1, regi=0.0, reuse=0, sift=0, sigma=0.01, ssz=128, tolog=1, wdi=2)
+2023-04-23 21:27:11,651 :: INFO :: torch.Size([76085, 384])
+2023-04-23 21:46:59,480 :: INFO :: log info to logs/tiktok_MultAttention.log
+2023-04-23 21:46:59,481 :: INFO :: Namespace(alpha=1.0, b_epoch=40, bsz=128, dataset='tiktok', device='cpu', epoch=5, f_epoch=20, f_max=10, feat_dim=64, ite=5, lam=0.1, lr=0.001, model='MultAttention', neg_num=50, neighbor_num=10, num_domains=10, num_epoch=500, p_ctx=[0.001, 0.1], p_emb=[0.001, 0.0001], p_embp=[0.001, 0.0001], p_proj=[0.001, 0.01], p_w=[1, 1, 1, 1], pretrained=1, regi=0.0, reuse=0, sift=0, sigma=0.01, ssz=128, tolog=1, wdi=2)
+2023-04-23 21:47:01,564 :: INFO :: torch.Size([76085, 384])
+2023-04-23 22:23:30,285 :: INFO :: log info to logs/tiktok_MultAttention.log
+2023-04-23 22:23:30,285 :: INFO :: Namespace(alpha=1.0, b_epoch=40, bsz=128, dataset='tiktok', device='cpu', epoch=5, f_epoch=20, f_max=10, feat_dim=64, ite=5, lam=0.1, lr=0.001, model='MultAttention', neg_num=50, neighbor_num=10, num_domains=10, num_epoch=500, p_ctx=[0.001, 0.1], p_emb=[0.001, 0.0001], p_embp=[0.001, 0.0001], p_proj=[0.001, 0.01], p_w=[1, 1, 1, 1], pretrained=1, regi=0.0, reuse=0, sift=0, sigma=0.01, ssz=128, tolog=1, wdi=2)
+2023-04-23 22:23:32,286 :: INFO :: torch.Size([76085, 384])
+2023-04-29 19:59:16,160 :: INFO :: log info to logs/tiktok_MultAttention.log
+2023-04-29 19:59:16,163 :: INFO :: Namespace(alpha=1.0, b_epoch=40, bsz=512, dataset='tiktok', device='cpu', epoch=5, f_epoch=20, f_max=10, feat_dim=64, ite=5, lam=0.1, lr=0.001, model='MultAttention', neg_num=50, neighbor_num=10, num_domains=10, num_epoch=500, p_ctx=[0.001, 0.1], p_emb=[0.001, 0.0001], p_embp=[0.001, 0.0001], p_proj=[0.001, 0.01], p_w=[1, 1, 1, 1], pretrained=0, regi=0.0, reuse=0, sift=0, sigma=0.01, ssz=512, tolog=1, wdi=2)
+2023-04-29 19:59:17,906 :: INFO :: torch.Size([76085, 384])
+2023-04-29 20:01:17,811 :: INFO :: log info to logs/tiktok_MultAttention.log
+2023-04-29 20:01:17,812 :: INFO :: Namespace(alpha=1.0, b_epoch=40, bsz=512, dataset='tiktok', device='cpu', epoch=5, f_epoch=20, f_max=10, feat_dim=64, ite=5, lam=0.1, lr=0.001, model='MultAttention', neg_num=50, neighbor_num=10, num_domains=10, num_epoch=500, p_ctx=[0.001, 0.1], p_emb=[0.001, 0.0001], p_embp=[0.001, 0.0001], p_proj=[0.001, 0.01], p_w=[1, 1, 1, 1], pretrained=0, regi=0.0, reuse=0, sift=0, sigma=0.01, ssz=512, tolog=1, wdi=2)
+2023-04-29 20:01:19,851 :: INFO :: torch.Size([76085, 384])
+2023-04-29 20:05:12,908 :: INFO :: log info to logs/tiktok_MultAttention.log
+2023-04-29 20:05:12,908 :: INFO :: Namespace(alpha=1.0, b_epoch=40, bsz=512, dataset='tiktok', device='cpu', epoch=5, f_epoch=20, f_max=10, feat_dim=64, ite=5, lam=0.1, lr=0.001, model='MultAttention', neg_num=50, neighbor_num=10, num_domains=10, num_epoch=500, p_ctx=[0.001, 0.1], p_emb=[0.001, 0.0001], p_embp=[0.001, 0.0001], p_proj=[0.001, 0.01], p_w=[1, 1, 1, 1], pretrained=0, regi=0.0, reuse=0, sift=0, sigma=0.01, ssz=512, tolog=1, wdi=2)
+2023-04-29 20:05:14,867 :: INFO :: torch.Size([76085, 384])
+2023-04-29 20:06:32,286 :: INFO :: log info to logs/tiktok_MultAttention.log
+2023-04-29 20:06:32,287 :: INFO :: Namespace(alpha=1.0, b_epoch=40, bsz=512, dataset='tiktok', device='cpu', epoch=5, f_epoch=20, f_max=10, feat_dim=64, ite=5, lam=0.1, lr=0.001, model='MultAttention', neg_num=50, neighbor_num=10, num_domains=10, num_epoch=500, p_ctx=[0.001, 0.1], p_emb=[0.001, 0.0001], p_embp=[0.001, 0.0001], p_proj=[0.001, 0.01], p_w=[1, 1, 1, 1], pretrained=0, regi=0.0, reuse=0, sift=0, sigma=0.01, ssz=512, tolog=1, wdi=2)
+2023-04-29 20:06:33,875 :: INFO :: torch.Size([76085, 384])
+2023-04-29 20:43:39,577 :: INFO :: log info to logs/tiktok_MultAttention.log
+2023-04-29 20:43:39,578 :: INFO :: Namespace(alpha=1.0, b_epoch=40, bsz=512, dataset='tiktok', device='cpu', epoch=5, f_epoch=20, f_max=10, feat_dim=64, ite=5, lam=0.1, lr=0.001, model='MultAttention', neg_num=50, neighbor_num=10, num_domains=10, num_epoch=500, p_ctx=[0.001, 0.1], p_emb=[0.001, 0.0001], p_embp=[0.001, 0.0001], p_proj=[0.001, 0.01], p_w=[1, 1, 1, 1], pretrained=0, regi=0.0, reuse=0, sift=0, sigma=0.01, ssz=512, tolog=1, wdi=2)
+2023-04-29 20:43:41,619 :: INFO :: torch.Size([76085, 384])
+2023-04-29 20:44:24,191 :: INFO :: log info to logs/tiktok_MultAttention.log
+2023-04-29 20:44:24,191 :: INFO :: Namespace(alpha=1.0, b_epoch=40, bsz=512, dataset='tiktok', device='cpu', epoch=5, f_epoch=20, f_max=10, feat_dim=64, ite=5, lam=0.1, lr=0.001, model='MultAttention', neg_num=50, neighbor_num=10, num_domains=10, num_epoch=500, p_ctx=[0.001, 0.1], p_emb=[0.001, 0.0001], p_embp=[0.001, 0.0001], p_proj=[0.001, 0.01], p_w=[1, 1, 1, 1], pretrained=0, regi=0.0, reuse=0, sift=0, sigma=0.01, ssz=512, tolog=1, wdi=2)
+2023-04-29 20:44:25,792 :: INFO :: torch.Size([76085, 384])
+2023-04-29 20:45:35,679 :: INFO :: log info to logs/tiktok_MultAttention.log
+2023-04-29 20:45:35,679 :: INFO :: Namespace(alpha=1.0, b_epoch=40, bsz=512, dataset='tiktok', device='cpu', epoch=5, f_epoch=20, f_max=10, feat_dim=64, ite=5, lam=0.1, lr=0.001, model='MultAttention', neg_num=50, neighbor_num=10, num_domains=10, num_epoch=500, p_ctx=[0.001, 0.1], p_emb=[0.001, 0.0001], p_embp=[0.001, 0.0001], p_proj=[0.001, 0.01], p_w=[1, 1, 1, 1], pretrained=0, regi=0.0, reuse=0, sift=0, sigma=0.01, ssz=512, tolog=1, wdi=2)
+2023-04-29 20:45:37,566 :: INFO :: torch.Size([76085, 384])
+2023-04-29 20:46:21,061 :: INFO :: log info to logs/tiktok_MultAttention.log
+2023-04-29 20:46:21,062 :: INFO :: Namespace(alpha=1.0, b_epoch=40, bsz=512, dataset='tiktok', device='cpu', epoch=5, f_epoch=20, f_max=10, feat_dim=64, ite=5, lam=0.1, lr=0.001, model='MultAttention', neg_num=50, neighbor_num=10, num_domains=10, num_epoch=500, p_ctx=[0.001, 0.1], p_emb=[0.001, 0.0001], p_embp=[0.001, 0.0001], p_proj=[0.001, 0.01], p_w=[1, 1, 1, 1], pretrained=0, regi=0.0, reuse=0, sift=0, sigma=0.01, ssz=512, tolog=1, wdi=2)
+2023-04-29 20:46:22,644 :: INFO :: torch.Size([76085, 384])
+2023-04-29 20:46:59,039 :: INFO :: log info to logs/tiktok_MultAttention.log
+2023-04-29 20:46:59,039 :: INFO :: Namespace(alpha=1.0, b_epoch=40, bsz=512, dataset='tiktok', device='cpu', epoch=5, f_epoch=20, f_max=10, feat_dim=64, ite=5, lam=0.1, lr=0.001, model='MultAttention', neg_num=50, neighbor_num=10, num_domains=10, num_epoch=500, p_ctx=[0.001, 0.1], p_emb=[0.001, 0.0001], p_embp=[0.001, 0.0001], p_proj=[0.001, 0.01], p_w=[1, 1, 1, 1], pretrained=0, regi=0.0, reuse=0, sift=0, sigma=0.01, ssz=512, tolog=1, wdi=2)
+2023-04-29 20:47:00,703 :: INFO :: torch.Size([76085, 384])
+2023-04-29 20:47:21,831 :: INFO :: log info to logs/tiktok_MultAttention.log
+2023-04-29 20:47:21,832 :: INFO :: Namespace(alpha=1.0, b_epoch=40, bsz=512, dataset='tiktok', device='cpu', epoch=5, f_epoch=20, f_max=10, feat_dim=64, ite=5, lam=0.1, lr=0.001, model='MultAttention', neg_num=50, neighbor_num=10, num_domains=10, num_epoch=500, p_ctx=[0.001, 0.1], p_emb=[0.001, 0.0001], p_embp=[0.001, 0.0001], p_proj=[0.001, 0.01], p_w=[1, 1, 1, 1], pretrained=0, regi=0.0, reuse=0, sift=0, sigma=0.01, ssz=512, tolog=1, wdi=2)
+2023-04-29 20:47:23,382 :: INFO :: torch.Size([76085, 384])
+2023-04-30 15:00:55,636 :: INFO :: log info to logs/tiktok_MultAttention.log
+2023-04-30 15:00:55,639 :: INFO :: Namespace(alpha=1.0, b_epoch=40, bsz=512, dataset='tiktok', device='cpu', epoch=5, f_epoch=20, f_max=10, feat_dim=64, ite=5, lam=0.1, lr=0.001, model='MultAttention', neg_num=50, neighbor_num=10, num_domains=10, num_epoch=500, p_ctx=[0.001, 0.1], p_emb=[0.001, 0.0001], p_embp=[0.001, 0.0001], p_proj=[0.001, 0.01], p_w=[1, 1, 1, 1], pretrained=0, regi=0.0, reuse=0, sift=0, sigma=0.01, ssz=512, tolog=1, wdi=2)
+2023-04-30 15:00:57,590 :: INFO :: torch.Size([76085, 384])
+2023-04-30 15:21:44,019 :: INFO :: log info to logs/tiktok_MultAttention.log
+2023-04-30 15:21:44,020 :: INFO :: Namespace(alpha=1.0, b_epoch=40, bsz=512, dataset='tiktok', device='cpu', epoch=5, f_epoch=20, f_max=10, feat_dim=64, ite=5, lam=0.1, lr=0.001, model='MultAttention', neg_num=50, neighbor_num=10, num_domains=10, num_epoch=500, p_ctx=[0.001, 0.1], p_emb=[0.001, 0.0001], p_embp=[0.001, 0.0001], p_proj=[0.001, 0.01], p_w=[1, 1, 1, 1], pretrained=0, regi=0.0, reuse=0, sift=0, sigma=0.01, ssz=512, tolog=1, wdi=2)
+2023-04-30 15:21:45,849 :: INFO :: torch.Size([76085, 384])
+2023-04-30 15:31:18,249 :: INFO :: log info to logs/tiktok_MultAttention.log
+2023-04-30 15:31:18,251 :: INFO :: Namespace(alpha=1.0, b_epoch=40, bsz=512, dataset='tiktok', device='cpu', epoch=5, f_epoch=20, f_max=10, feat_dim=64, ite=5, lam=0.1, lr=0.001, model='MultAttention', neg_num=50, neighbor_num=10, num_domains=10, num_epoch=500, p_ctx=[0.001, 0.1], p_emb=[0.001, 0.0001], p_embp=[0.001, 0.0001], p_proj=[0.001, 0.01], p_w=[1, 1, 1, 1], pretrained=0, regi=0.0, reuse=0, sift=0, sigma=0.01, ssz=512, tolog=1, wdi=2)
+2023-04-30 15:31:20,268 :: INFO :: torch.Size([76085, 384])
+2023-04-30 15:33:10,791 :: INFO :: log info to logs/tiktok_MultAttention.log
+2023-04-30 15:33:10,791 :: INFO :: Namespace(alpha=1.0, b_epoch=40, bsz=512, dataset='tiktok', device='cpu', epoch=5, f_epoch=20, f_max=10, feat_dim=64, ite=5, lam=0.1, lr=0.001, model='MultAttention', neg_num=50, neighbor_num=10, num_domains=10, num_epoch=500, p_ctx=[0.001, 0.1], p_emb=[0.001, 0.0001], p_embp=[0.001, 0.0001], p_proj=[0.001, 0.01], p_w=[1, 1, 1, 1], pretrained=0, regi=0.0, reuse=0, sift=0, sigma=0.01, ssz=512, tolog=1, wdi=2)
+2023-04-30 15:33:12,891 :: INFO :: torch.Size([76085, 384])
+2023-04-30 15:43:37,431 :: INFO :: log info to logs/tiktok_MultAttention.log
+2023-04-30 15:43:37,432 :: INFO :: Namespace(alpha=1.0, b_epoch=40, bsz=512, dataset='tiktok', device='cpu', epoch=5, f_epoch=20, f_max=10, feat_dim=64, ite=5, lam=0.1, lr=0.001, model='MultAttention', neg_num=50, neighbor_num=10, num_domains=10, num_epoch=500, p_ctx=[0.001, 0.1], p_emb=[0.001, 0.0001], p_embp=[0.001, 0.0001], p_proj=[0.001, 0.01], p_w=[1, 1, 1, 1], pretrained=0, regi=0.0, reuse=0, sift=0, sigma=0.01, ssz=512, tolog=1, wdi=2)
+2023-04-30 15:43:39,071 :: INFO :: torch.Size([76085, 384])
+2023-04-30 22:59:07,343 :: INFO :: log info to logs/tiktok_MultAttention.log
+2023-04-30 22:59:07,345 :: INFO :: Namespace(alpha=1.0, b_epoch=40, bsz=512, dataset='tiktok', device='cpu', epoch=5, f_epoch=20, f_max=10, feat_dim=64, ite=5, lam=0.1, lr=0.001, model='MultAttention', neg_num=50, neighbor_num=10, num_domains=10, num_epoch=500, p_ctx=[0.001, 0.1], p_emb=[0.001, 0.0001], p_embp=[0.001, 0.0001], p_proj=[0.001, 0.01], p_w=[1, 1, 1, 1], pretrained=0, regi=0.0, reuse=0, sift=0, sigma=0.01, ssz=512, tolog=1, wdi=2)
+2023-04-30 22:59:09,528 :: INFO :: torch.Size([76085, 384])
+2023-05-02 21:34:08,919 :: INFO :: log info to logs/tiktok_MultAttention.log
+2023-05-02 21:34:08,920 :: INFO :: Namespace(alpha=1.0, b_epoch=40, bsz=512, dataset='tiktok', device='cpu', epoch=5, f_epoch=20, f_max=10, feat_dim=64, ite=5, lam=0.1, lr=0.001, model='MultAttention', neg_num=50, neighbor_num=10, num_domains=10, num_epoch=500, p_ctx=[0.001, 0.1], p_emb=[0.001, 0.0001], p_embp=[0.001, 0.0001], p_proj=[0.001, 0.01], p_w=[1, 1, 1, 1], pretrained=0, regi=0.0, reuse=0, sift=0, sigma=0.01, ssz=512, tolog=1, wdi=2)
+2023-05-02 21:34:10,014 :: INFO :: torch.Size([76085, 384])
+2023-05-02 21:36:50,513 :: INFO :: log info to logs/tiktok_MultAttention.log
+2023-05-02 21:36:50,514 :: INFO :: Namespace(alpha=1.0, b_epoch=40, bsz=512, dataset='tiktok', device='cpu', epoch=5, f_epoch=20, f_max=10, feat_dim=64, ite=5, lam=0.1, lr=0.001, model='MultAttention', neg_num=50, neighbor_num=10, num_domains=10, num_epoch=500, p_ctx=[0.001, 0.1], p_emb=[0.001, 0.0001], p_embp=[0.001, 0.0001], p_proj=[0.001, 0.01], p_w=[1, 1, 1, 1], pretrained=0, regi=0.0, reuse=0, sift=0, sigma=0.01, ssz=512, tolog=1, wdi=2)
+2023-05-02 21:37:16,938 :: INFO :: log info to logs/tiktok_MultAttention.log
+2023-05-02 21:37:16,938 :: INFO :: Namespace(alpha=1.0, b_epoch=40, bsz=512, dataset='tiktok', device='cpu', epoch=5, f_epoch=20, f_max=10, feat_dim=64, ite=5, lam=0.1, lr=0.001, model='MultAttention', neg_num=50, neighbor_num=10, num_domains=10, num_epoch=500, p_ctx=[0.001, 0.1], p_emb=[0.001, 0.0001], p_embp=[0.001, 0.0001], p_proj=[0.001, 0.01], p_w=[1, 1, 1, 1], pretrained=0, regi=0.0, reuse=0, sift=0, sigma=0.01, ssz=512, tolog=1, wdi=2)
+2023-05-02 21:37:42,885 :: INFO :: log info to logs/tiktok_MultAttention.log
+2023-05-02 21:37:42,886 :: INFO :: Namespace(alpha=1.0, b_epoch=40, bsz=512, dataset='tiktok', device='cpu', epoch=5, f_epoch=20, f_max=10, feat_dim=64, ite=5, lam=0.1, lr=0.001, model='MultAttention', neg_num=50, neighbor_num=10, num_domains=10, num_epoch=500, p_ctx=[0.001, 0.1], p_emb=[0.001, 0.0001], p_embp=[0.001, 0.0001], p_proj=[0.001, 0.01], p_w=[1, 1, 1, 1], pretrained=0, regi=0.0, reuse=0, sift=0, sigma=0.01, ssz=512, tolog=1, wdi=2)
+2023-05-02 21:37:44,058 :: INFO :: torch.Size([76085, 384])
+2023-05-02 21:38:45,374 :: INFO :: log info to logs/tiktok_MultAttention.log
+2023-05-02 21:38:45,375 :: INFO :: Namespace(alpha=1.0, b_epoch=40, bsz=512, dataset='tiktok', device='cpu', epoch=5, f_epoch=20, f_max=10, feat_dim=64, ite=5, lam=0.1, lr=0.001, model='MultAttention', neg_num=50, neighbor_num=10, num_domains=10, num_epoch=500, p_ctx=[0.001, 0.1], p_emb=[0.001, 0.0001], p_embp=[0.001, 0.0001], p_proj=[0.001, 0.01], p_w=[1, 1, 1, 1], pretrained=0, regi=0.0, reuse=0, sift=0, sigma=0.01, ssz=512, tolog=1, wdi=2)
+2023-05-02 21:38:47,024 :: INFO :: torch.Size([76085, 384])
+2023-05-02 21:39:20,882 :: INFO :: log info to logs/tiktok_MultAttention.log
+2023-05-02 21:39:20,882 :: INFO :: Namespace(alpha=1.0, b_epoch=40, bsz=512, dataset='tiktok', device='cpu', epoch=5, f_epoch=20, f_max=10, feat_dim=64, ite=5, lam=0.1, lr=0.001, model='MultAttention', neg_num=50, neighbor_num=10, num_domains=10, num_epoch=500, p_ctx=[0.001, 0.1], p_emb=[0.001, 0.0001], p_embp=[0.001, 0.0001], p_proj=[0.001, 0.01], p_w=[1, 1, 1, 1], pretrained=0, regi=0.0, reuse=0, sift=0, sigma=0.01, ssz=512, tolog=1, wdi=2)
+2023-05-02 21:39:22,369 :: INFO :: torch.Size([76085, 384])
+2023-05-02 21:39:56,932 :: INFO :: log info to logs/tiktok_MultAttention.log
+2023-05-02 21:39:56,933 :: INFO :: Namespace(alpha=1.0, b_epoch=40, bsz=512, dataset='tiktok', device='cpu', epoch=5, f_epoch=20, f_max=10, feat_dim=64, ite=5, lam=0.1, lr=0.001, model='MultAttention', neg_num=50, neighbor_num=10, num_domains=10, num_epoch=500, p_ctx=[0.001, 0.1], p_emb=[0.001, 0.0001], p_embp=[0.001, 0.0001], p_proj=[0.001, 0.01], p_w=[1, 1, 1, 1], pretrained=0, regi=0.0, reuse=0, sift=0, sigma=0.01, ssz=512, tolog=1, wdi=2)
+2023-05-02 21:39:58,425 :: INFO :: torch.Size([76085, 384])
+2023-05-02 22:01:28,192 :: INFO :: log info to logs/tiktok_MultAttention.log
+2023-05-02 22:01:28,193 :: INFO :: Namespace(alpha=1.0, b_epoch=40, bsz=512, dataset='tiktok', device='cpu', epoch=5, f_epoch=20, f_max=10, feat_dim=64, ite=5, lam=0.1, lr=0.001, model='MultAttention', neg_num=50, neighbor_num=10, num_domains=10, num_epoch=500, p_ctx=[0.001, 0.1], p_emb=[0.001, 0.0001], p_embp=[0.001, 0.0001], p_proj=[0.001, 0.01], p_w=[1, 1, 1, 1], pretrained=0, regi=0.0, reuse=0, sift=0, sigma=0.01, ssz=512, tolog=1, wdi=2)
+2023-05-02 22:01:29,641 :: INFO :: torch.Size([76085, 384])
+2023-05-02 22:01:51,626 :: INFO :: log info to logs/tiktok_MultAttention.log
+2023-05-02 22:01:51,626 :: INFO :: Namespace(alpha=1.0, b_epoch=40, bsz=512, dataset='tiktok', device='cpu', epoch=5, f_epoch=20, f_max=10, feat_dim=64, ite=5, lam=0.1, lr=0.001, model='MultAttention', neg_num=50, neighbor_num=10, num_domains=10, num_epoch=500, p_ctx=[0.001, 0.1], p_emb=[0.001, 0.0001], p_embp=[0.001, 0.0001], p_proj=[0.001, 0.01], p_w=[1, 1, 1, 1], pretrained=0, regi=0.0, reuse=0, sift=0, sigma=0.01, ssz=512, tolog=1, wdi=2)
+2023-05-02 22:01:52,716 :: INFO :: torch.Size([76085, 384])
+2023-05-02 22:04:29,592 :: INFO :: log info to logs/tiktok_MultAttention.log
+2023-05-02 22:04:29,593 :: INFO :: Namespace(alpha=1.0, b_epoch=40, bsz=512, dataset='tiktok', device='cpu', epoch=5, f_epoch=20, f_max=10, feat_dim=64, ite=5, lam=0.1, lr=0.001, model='MultAttention', neg_num=50, neighbor_num=10, num_domains=10, num_epoch=500, p_ctx=[0.001, 0.1], p_emb=[0.001, 0.0001], p_embp=[0.001, 0.0001], p_proj=[0.001, 0.01], p_w=[1, 1, 1, 1], pretrained=0, regi=0.0, reuse=0, sift=0, sigma=0.01, ssz=512, tolog=1, wdi=2)
+2023-05-02 22:04:31,012 :: INFO :: torch.Size([76085, 384])
+2023-05-02 22:05:05,950 :: INFO :: log info to logs/tiktok_MultAttention.log
+2023-05-02 22:05:05,951 :: INFO :: Namespace(alpha=1.0, b_epoch=40, bsz=512, dataset='tiktok', device='cpu', epoch=5, f_epoch=20, f_max=10, feat_dim=64, ite=5, lam=0.1, lr=0.001, model='MultAttention', neg_num=50, neighbor_num=10, num_domains=10, num_epoch=500, p_ctx=[0.001, 0.1], p_emb=[0.001, 0.0001], p_embp=[0.001, 0.0001], p_proj=[0.001, 0.01], p_w=[1, 1, 1, 1], pretrained=0, regi=0.0, reuse=0, sift=0, sigma=0.01, ssz=512, tolog=1, wdi=2)
+2023-05-02 22:05:07,400 :: INFO :: torch.Size([76085, 384])
+2023-05-02 22:05:39,056 :: INFO :: log info to logs/tiktok_MultAttention.log
+2023-05-02 22:05:39,056 :: INFO :: Namespace(alpha=1.0, b_epoch=40, bsz=512, dataset='tiktok', device='cpu', epoch=5, f_epoch=20, f_max=10, feat_dim=64, ite=5, lam=0.1, lr=0.001, model='MultAttention', neg_num=50, neighbor_num=10, num_domains=10, num_epoch=500, p_ctx=[0.001, 0.1], p_emb=[0.001, 0.0001], p_embp=[0.001, 0.0001], p_proj=[0.001, 0.01], p_w=[1, 1, 1, 1], pretrained=0, regi=0.0, reuse=0, sift=0, sigma=0.01, ssz=512, tolog=1, wdi=2)
+2023-05-02 22:05:40,131 :: INFO :: torch.Size([76085, 384])
+2023-05-02 22:08:32,884 :: INFO :: log info to logs/tiktok_MultAttention.log
+2023-05-02 22:08:32,884 :: INFO :: Namespace(alpha=1.0, b_epoch=40, bsz=512, dataset='tiktok', device='cpu', epoch=5, f_epoch=20, f_max=10, feat_dim=64, ite=5, lam=0.1, lr=0.001, model='MultAttention', neg_num=50, neighbor_num=10, num_domains=10, num_epoch=500, p_ctx=[0.001, 0.1], p_emb=[0.001, 0.0001], p_embp=[0.001, 0.0001], p_proj=[0.001, 0.01], p_w=[1, 1, 1, 1], pretrained=0, regi=0.0, reuse=0, sift=0, sigma=0.01, ssz=512, tolog=1, wdi=2)
+2023-05-02 22:09:29,422 :: INFO :: log info to logs/tiktok_MultAttention.log
+2023-05-02 22:09:29,422 :: INFO :: Namespace(alpha=1.0, b_epoch=40, bsz=512, dataset='tiktok', device='cpu', epoch=5, f_epoch=20, f_max=10, feat_dim=64, ite=5, lam=0.1, lr=0.001, model='MultAttention', neg_num=50, neighbor_num=10, num_domains=10, num_epoch=500, p_ctx=[0.001, 0.1], p_emb=[0.001, 0.0001], p_embp=[0.001, 0.0001], p_proj=[0.001, 0.01], p_w=[1, 1, 1, 1], pretrained=0, regi=0.0, reuse=0, sift=0, sigma=0.01, ssz=512, tolog=1, wdi=2)
+2023-05-02 22:11:48,723 :: INFO :: log info to logs/tiktok_MultAttention.log
+2023-05-02 22:11:48,724 :: INFO :: Namespace(alpha=1.0, b_epoch=40, bsz=512, dataset='tiktok', device='cpu', epoch=5, f_epoch=20, f_max=10, feat_dim=64, ite=5, lam=0.1, lr=0.001, model='MultAttention', neg_num=50, neighbor_num=10, num_domains=10, num_epoch=500, p_ctx=[0.001, 0.1], p_emb=[0.001, 0.0001], p_embp=[0.001, 0.0001], p_proj=[0.001, 0.01], p_w=[1, 1, 1, 1], pretrained=0, regi=0.0, reuse=0, sift=0, sigma=0.01, ssz=512, tolog=1, wdi=2)
+2023-05-02 22:11:49,979 :: INFO :: torch.Size([76085, 384])
+2023-05-02 22:14:18,889 :: INFO :: log info to logs/tiktok_MultAttention.log
+2023-05-02 22:14:18,890 :: INFO :: Namespace(alpha=1.0, b_epoch=40, bsz=512, dataset='tiktok', device='cpu', epoch=5, f_epoch=20, f_max=10, feat_dim=64, ite=5, lam=0.1, lr=0.001, model='MultAttention', neg_num=50, neighbor_num=10, num_domains=10, num_epoch=500, p_ctx=[0.001, 0.1], p_emb=[0.001, 0.0001], p_embp=[0.001, 0.0001], p_proj=[0.001, 0.01], p_w=[1, 1, 1, 1], pretrained=0, regi=0.0, reuse=0, sift=0, sigma=0.01, ssz=512, tolog=1, wdi=2)
+2023-05-02 22:14:20,293 :: INFO :: torch.Size([76085, 384])
+2023-05-03 10:29:55,017 :: INFO :: log info to logs/tiktok_MultAttention.log
+2023-05-03 10:29:55,018 :: INFO :: Namespace(alpha=1.0, b_epoch=40, bsz=512, dataset='tiktok', device='cpu', epoch=5, f_epoch=20, f_max=10, feat_dim=64, ite=5, lam=0.1, lr=0.001, model='MultAttention', neg_num=50, neighbor_num=10, num_domains=10, num_epoch=500, p_ctx=[0.001, 0.1], p_emb=[0.001, 0.0001], p_embp=[0.001, 0.0001], p_proj=[0.001, 0.01], p_w=[1, 1, 1, 1], pretrained=0, regi=0.0, reuse=0, sift=0, sigma=0.01, ssz=512, tolog=1, wdi=2)
+2023-05-03 10:29:56,587 :: INFO :: torch.Size([76085, 384])
+2023-05-03 10:30:59,865 :: INFO :: log info to logs/tiktok_MultAttention.log
+2023-05-03 10:30:59,865 :: INFO :: Namespace(alpha=1.0, b_epoch=40, bsz=512, dataset='tiktok', device='cpu', epoch=5, f_epoch=20, f_max=10, feat_dim=64, ite=5, lam=0.1, lr=0.001, model='MultAttention', neg_num=50, neighbor_num=10, num_domains=10, num_epoch=500, p_ctx=[0.001, 0.1], p_emb=[0.001, 0.0001], p_embp=[0.001, 0.0001], p_proj=[0.001, 0.01], p_w=[1, 1, 1, 1], pretrained=0, regi=0.0, reuse=0, sift=0, sigma=0.01, ssz=512, tolog=1, wdi=2)
+2023-05-03 10:31:01,443 :: INFO :: torch.Size([76085, 384])
+2023-05-03 10:48:18,658 :: INFO :: log info to logs/tiktok_MultAttention.log
+2023-05-03 10:48:18,659 :: INFO :: Namespace(alpha=1.0, b_epoch=40, bsz=512, dataset='tiktok', device='cpu', epoch=5, f_epoch=20, f_max=10, feat_dim=64, ite=5, lam=0.1, lr=0.001, model='MultAttention', neg_num=50, neighbor_num=10, num_domains=10, num_epoch=500, p_ctx=[0.001, 0.1], p_emb=[0.001, 0.0001], p_embp=[0.001, 0.0001], p_proj=[0.001, 0.01], p_w=[1, 1, 1, 1], pretrained=0, regi=0.0, reuse=0, sift=0, sigma=0.01, ssz=512, tolog=1, wdi=2)
+2023-05-03 10:48:20,550 :: INFO :: torch.Size([76085, 384])
+2023-05-03 10:48:44,833 :: INFO :: log info to logs/tiktok_MultAttention.log
+2023-05-03 10:48:44,833 :: INFO :: Namespace(alpha=1.0, b_epoch=40, bsz=512, dataset='tiktok', device='cpu', epoch=5, f_epoch=20, f_max=10, feat_dim=64, ite=5, lam=0.1, lr=0.001, model='MultAttention', neg_num=50, neighbor_num=10, num_domains=10, num_epoch=500, p_ctx=[0.001, 0.1], p_emb=[0.001, 0.0001], p_embp=[0.001, 0.0001], p_proj=[0.001, 0.01], p_w=[1, 1, 1, 1], pretrained=0, regi=0.0, reuse=0, sift=0, sigma=0.01, ssz=512, tolog=1, wdi=2)
+2023-05-03 10:48:46,464 :: INFO :: torch.Size([76085, 384])
+2023-05-03 10:49:23,762 :: INFO :: log info to logs/tiktok_MultAttention.log
+2023-05-03 10:49:23,762 :: INFO :: Namespace(alpha=1.0, b_epoch=40, bsz=512, dataset='tiktok', device='cpu', epoch=5, f_epoch=20, f_max=10, feat_dim=64, ite=5, lam=0.1, lr=0.001, model='MultAttention', neg_num=50, neighbor_num=10, num_domains=10, num_epoch=500, p_ctx=[0.001, 0.1], p_emb=[0.001, 0.0001], p_embp=[0.001, 0.0001], p_proj=[0.001, 0.01], p_w=[1, 1, 1, 1], pretrained=0, regi=0.0, reuse=0, sift=0, sigma=0.01, ssz=512, tolog=1, wdi=2)
+2023-05-03 10:49:25,477 :: INFO :: torch.Size([76085, 384])
+2023-05-03 10:55:14,064 :: INFO :: log info to logs/tiktok_MultAttention.log
+2023-05-03 10:55:14,065 :: INFO :: Namespace(alpha=1.0, b_epoch=40, bsz=512, dataset='tiktok', device='cpu', epoch=5, f_epoch=20, f_max=10, feat_dim=64, ite=5, lam=0.1, lr=0.001, model='MultAttention', neg_num=50, neighbor_num=10, num_domains=10, num_epoch=500, p_ctx=[0.001, 0.1], p_emb=[0.001, 0.0001], p_embp=[0.001, 0.0001], p_proj=[0.001, 0.01], p_w=[1, 1, 1, 1], pretrained=0, regi=0.0, reuse=0, sift=0, sigma=0.01, ssz=512, tolog=1, wdi=2)
+2023-05-03 10:55:16,000 :: INFO :: torch.Size([76085, 384])
+2023-05-06 15:45:32,537 :: INFO :: log info to logs/tiktok_MultAttention.log
+2023-05-06 15:45:32,542 :: INFO :: Namespace(alpha=1.0, b_epoch=40, bsz=512, dataset='tiktok', device='cpu', epoch=5, f_epoch=20, f_max=10, feat_dim=64, ite=5, lam=0.1, lr=0.001, model='MultAttention', neg_num=50, neighbor_num=10, num_domains=10, num_epoch=500, p_ctx=[0.001, 0.1], p_emb=[0.001, 0.0001], p_embp=[0.001, 0.0001], p_proj=[0.001, 0.01], p_w=[1, 1, 1, 1], pretrained=0, regi=0.0, reuse=0, sift=0, sigma=0.01, ssz=512, tolog=1, wdi=2)
+2023-05-06 15:45:34,395 :: INFO :: torch.Size([76085, 384])
+2023-05-06 15:46:18,660 :: INFO :: log info to logs/tiktok_MultAttention.log
+2023-05-06 15:46:18,660 :: INFO :: Namespace(alpha=1.0, b_epoch=40, bsz=512, dataset='tiktok', device='cpu', epoch=5, f_epoch=20, f_max=10, feat_dim=64, ite=5, lam=0.1, lr=0.001, model='MultAttention', neg_num=50, neighbor_num=10, num_domains=10, num_epoch=500, p_ctx=[0.001, 0.1], p_emb=[0.001, 0.0001], p_embp=[0.001, 0.0001], p_proj=[0.001, 0.01], p_w=[1, 1, 1, 1], pretrained=0, regi=0.0, reuse=0, sift=0, sigma=0.01, ssz=512, tolog=1, wdi=2)
+2023-05-06 15:46:20,663 :: INFO :: torch.Size([76085, 384])
+2023-05-06 15:47:11,847 :: INFO :: log info to logs/tiktok_MultAttention.log
+2023-05-06 15:47:11,848 :: INFO :: Namespace(alpha=1.0, b_epoch=40, bsz=512, dataset='tiktok', device='cpu', epoch=5, f_epoch=20, f_max=10, feat_dim=64, ite=5, lam=0.1, lr=0.001, model='MultAttention', neg_num=50, neighbor_num=10, num_domains=10, num_epoch=500, p_ctx=[0.001, 0.1], p_emb=[0.001, 0.0001], p_embp=[0.001, 0.0001], p_proj=[0.001, 0.01], p_w=[1, 1, 1, 1], pretrained=0, regi=0.0, reuse=0, sift=0, sigma=0.01, ssz=512, tolog=1, wdi=2)
+2023-05-06 15:47:13,802 :: INFO :: torch.Size([76085, 384])
