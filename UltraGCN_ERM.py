@@ -81,7 +81,7 @@ class ERMNet(torch.nn.Module):
     def pre(self):
         train_mat = sp.dok_matrix((self.ds.usz, self.ds.isz), dtype=np.float32)
 
-        for x in self.ds.Inv_Learn_Process:
+        for x in self.ds.train:
             train_mat[x[0], x[1]] = 1.0
 
         D_u = np.sum(train_mat, axis=1).reshape(-1)

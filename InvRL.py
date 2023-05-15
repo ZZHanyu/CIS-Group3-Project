@@ -9,6 +9,7 @@ import math
 from torch.autograd import grad
 from UltraGCN import UltraGCNNet
 from  UltraGCN_ERM import ERMNet
+from MultAttention import BertSelfAttention
 
 
 def setup_seed(seed):   # 随机数生成
@@ -141,7 +142,7 @@ class InvRL(Model):
         self.max_net = None
 
         self.mask_dim = self.ds.feature.shape[1]
-        self.domain = torch.tensor(np.random.randint(0, self.args.num_domains, int(self.ds.Inv_Learn_Process.shape[0] * 0.01))).to(self.args.device)
+        self.domain = torch.tensor(np.random.randint(0, self.args.num_domains, int(self.ds.train.shape[0] * 0.01))).to(self.args.device)
         self.weight = torch.tensor(np.zeros(self.mask_dim, dtype=np.float32)).to(self.args.device)
         self.proj = None
 
@@ -162,7 +163,7 @@ class InvRL(Model):
             start_index = 0
             end_index = self.args.ssz
             while start_index < end_index <= self.ds.sz:
-                sub = torch.from_numpy(self.ds.Inv_Learn_Process[start_index: end_index, :]).to(self.args.device)
+                sub = torch.from_numpy(self.ds.train[start_index: end_index, :]).to(self.args.device)
                 pred = self.net_e.predict(sub[:, 0], sub[:, 1])
                 if pred is None:
                     pred = torch.zeros_like(sub[:, 0])
@@ -182,10 +183,10 @@ class InvRL(Model):
         # 真正开始 划分环境
         self.logging.info('----- frontend -----')
         ite = 0
-        delta_threshold = int(self.ds.Inv_Learn_Process.shape[0] * 0.01)
+        delta_threshold = int(self.ds.train.shape[0] * 0.01)
         print('delta_threshold %d' % delta_threshold)
         if self.args.reuse == 0:
-            self.domain = torch.tensor(np.random.randint(0, self.args.num_domains, int(self.ds.Inv_Learn_Process.shape[0] * 0.01))).to(
+            self.domain = torch.tensor(np.random.randint(0, self.args.num_domains, int(self.ds.train.shape[0] * 0.01))).to(
                 self.args.device)
             print('domain :', self.domain)
 
@@ -323,92 +324,7 @@ class InvRL(Model):
 
         self.backmodel = None
 
-
-    def Varant_Learn_Process(self):
-        mask = np.load(self.mask_filename, allow_pickle=True)
-        mask = torch.from_numpy(mask)
-        self.logging.info('ERM mask: from pre-train %s' % mask)
-        #   取invariant representaion的反集 :
-        #   (1-c)*整个环境：
-        variant_representation = torch.ones(mask.shape) - mask
-
-        print('*\tThe Variant Mask=\n',variant_representation)
-
-        #   定义模型和参数
-        self.args.p_emb = self.args.p_embp
-        self.args.p_proj = self.args.p_ctx
-        self.net = ERMNet(self.ds, self.args, self.logging, mask.cpu()).to(self.args.device)
-
-        #   定义数据集
-        if self.args.dataset == 'tiktok':
-            self.init_word_emb(self.net)
-
-        #   定义学习率：
-        lr1, wd1 = self.args.p_emb
-        lr2, wd2 = self.args.p_proj
-        optimizer = torch.optim.Adam(self.net.emb_params, lr=lr1, weight_decay=0)
-        optimizer2 = torch.optim.Adam(self.net.proj_params, lr=lr2, weight_decay=0)
-
-
-        #   初始化参数：
-        epochs = self.args.num_epoch
-        val_max = 0.0
-        num_decreases = 0
-        max_epoch = 0
-        end_epoch = epochs
-        loss = 0.0
-        self.fs.eval()
-        assert self.fs.training is False
-
-
-        #   将变化环境抽离出来进行单独的ERM学习：
-        for epoch in tqdm(range(epochs)):
-            generator = self.ds.sample()
-            while True:
-                self.net.train()
-                optimizer.zero_grad()
-                optimizer2.zero_grad()
-                uid, iid, niid = next(generator)
-                if uid is None:
-                    break
-                uid, iid, niid = uid.to(self.args.device), iid.to(self.args.device), niid.to(self.args.device)
-
-                loss = self.net(uid, iid, niid)
-
-                loss.backward()  # Computes the gradient of current tensor w.r.t. graph leaves.
-                optimizer.step()
-                optimizer2.step()
-
-            if epoch > 0 and epoch % self.args.epoch == 0:
-                self.logging.info("Epoch %d: loss %s, U.norm %s, V.norm %s, MLP.norm %s" % (
-                epoch, loss, torch.norm(self.net.U).item(), torch.norm(self.net.V).item(),
-                torch.norm(self.net.MLP.weight).item()))
-                self.val(), self.test() # 检验模型
-                if self.val_ndcg > val_max:  # 冒泡法
-                    val_max = self.val_ndcg
-                    max_epoch = epoch
-                    num_decreases = 0
-                    self.update()
-                else:
-                    if num_decreases > 40:
-                        end_epoch = epoch
-                        break
-                    else:
-                        num_decreases += 1
-
-        self.logging.info("Epoch %d:" % end_epoch)
-        self.val(), self.test()
-        if self.val_ndcg > val_max:
-            val_max = self.val_ndcg
-            max_epoch = epochs
-            num_decreases = 0
-            self.update()
-        self.logging.info("final:")
-        self.logging.info('----- test -----')
-        self.logscore(self.max_test)
-        self.logging.info('max_epoch %d:' % max_epoch)
-
-    def Inv_Learn_Process(self):
+    def train(self):
             if self.args.pretrained == 0:
                 self.solve(self.args.ite)
                 mask = self.weight
@@ -419,18 +335,33 @@ class InvRL(Model):
 
             self.logging.info('mask %s' % mask)
 
+            mask = np.load(self.mask_filename, allow_pickle=True)
+            mask = torch.from_numpy(mask)
+            self.logging.info('ERM mask: from pre-train %s' % mask)
+            #   取invariant representaion的反集 :
+            #   (1-c)*整个环境：
+            variant_representation = torch.ones(mask.shape) - mask
+            self.logging.info('Variant Representation Mask %s' % variant_representation)
+
+
             self.args.p_emb = self.args.p_embp
             self.args.p_proj = self.args.p_ctx
             self.net = UltraGCNNet(self.ds, self.args, self.logging, mask.cpu()).to(self.args.device)
+            self.net2 = ERMNet(self.ds, self.args, self.logging, mask.cpu()).to(self.args.device)
 
             if self.args.dataset == 'tiktok':
                 self.init_word_emb(self.net)
+                self.init_word_emb(self.net2)
 
+            #   定义学习率：
             lr1, wd1 = self.args.p_emb
             lr2, wd2 = self.args.p_proj
             optimizer = torch.optim.Adam(self.net.emb_params, lr=lr1, weight_decay=0)
             optimizer2 = torch.optim.Adam(self.net.proj_params, lr=lr2, weight_decay=0)
+            optimizer3 = torch.optim.Adam(self.net2.emb_params, lr=lr1, weight_decay=0)
+            optimizer4 = torch.optim.Adam(self.net2.proj_params, lr=lr2, weight_decay=0)
 
+            #   初始化参数：
             epochs = self.args.num_epoch
             val_max = 0.0
             num_decreases = 0
@@ -474,6 +405,32 @@ class InvRL(Model):
                             break
                         else:
                             num_decreases += 1
+
+            print("Now Modifing The Config of model:\n")
+
+            config = {
+                "num_of_attention_heads": 2,  # 这个属性是你想要划分出的几个层次
+                "hidden_size": 384  # 隐藏特征数
+            }
+            model = BertSelfAttention(config, self.ds, self.args, self.logging).to(self.args.device)
+
+            #   将变化环境抽离出来进行单独的ERM学习：
+            for epoch in tqdm(range(epochs)):
+                generator = self.ds.sample()
+                while True:
+                    self.net2.train()
+                    optimizer3.zero_grad()
+                    optimizer4.zero_grad()
+                    uid, iid, niid = next(generator)
+                    if uid is None:
+                        break
+                    uid, iid, niid = uid.to(self.args.device), iid.to(self.args.device), niid.to(self.args.device)
+
+                    loss = self.net2(uid, iid, niid)
+
+                    loss.backward()  # Computes the gradient of current tensor w.r.t. graph leaves.
+                    optimizer3.step()
+                    optimizer4.step()
 
             self.logging.info("Epoch %d:" % end_epoch)
             self.val(), self.test()

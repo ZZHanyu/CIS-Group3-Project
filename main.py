@@ -8,7 +8,6 @@ import torch
 
 from UltraGCN import UltraGCN
 from InvRL import InvRL
-from MultAttention import BertSelfAttention
 from UltraGCN_ERM import ERMNet
 import time
 from tqdm import tqdm
@@ -127,19 +126,6 @@ if args.model == 'UltraGCN':
     model.train()
 elif args.model == 'IRAT':
     model = InvRL(ds, args, logging)
-    model.Inv_Learn_Process()
-
-    print("Now Modifing The Config of model:\n")
-    config = {
-        "num_of_attention_heads": 2,  # 这个属性是你想要划分出的几个层次
-        "hidden_size": 384  # 隐藏特征数
-    }
-    model = BertSelfAttention(config, ds, args, logging).to(args.device)
-
-    print("***\tNow Start ERM Learning\t***\n")
-    model = InvRL(ds, args, logging)
-    model.Varant_Learn_Process()
-
-
+    model.train()
 else:
     raise Exception('unknown model type', args.model)
