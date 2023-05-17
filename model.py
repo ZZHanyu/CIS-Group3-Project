@@ -22,7 +22,7 @@ class Model:
         P = []
         R = []
         N = []
-        for i in [1, 5, 10, 50]:
+        for i in [1, 5, 10, 50, 100]:
             precision, recall, ndcg_score = self.full_accuracy(self.ds.test, step=self.args.ssz, topk=i)
             P.append(precision)
             R.append(recall)
@@ -35,7 +35,7 @@ class Model:
         P = []
         R = []
         N = []
-        for i in [1, 5, 10, 50]:
+        for i in [1, 5, 10, 50, 100]:
             precision, recall, ndcg_score = self.full_accuracy(self.ds.val, step=self.args.ssz, topk=i)
             P.append(precision)
             R.append(recall)

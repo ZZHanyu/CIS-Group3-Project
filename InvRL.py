@@ -12,6 +12,16 @@ from  UltraGCN_ERM import ERMNet
 from MultAttention import BertSelfAttention
 
 
+def get_var( ds, mask):
+    fe = ds.get_data()
+    variant_feature = []
+    print("***\tNow start generting variant feature Matrix...\n")
+    for i in tqdm(range(fe.size(0))):
+        variant_feature.append(np.multiply(fe[i], mask).tolist())
+    variant_feature = torch.FloatTensor(variant_feature)
+    ds.change_data(variant_feature)
+    return ds
+
 def setup_seed(seed):   # 随机数生成
     torch.manual_seed(seed)
     torch.cuda.manual_seed_all(seed)
@@ -130,7 +140,7 @@ class InvRL(Model):
         super().__init__()
         # 继承 Model Class中的全部内容，并且需要定义额外的属性
         # 在这里Model是父类，InvRL是其子类
-        self.mask_filename = 'C:\\Users\\vipuser\\Desktop\\509run\\mask.npy'
+        self.mask_filename = self.args.path
         setup_seed(2233)
         self.filename_pre = 'weights/%s_UGCN_best.pth' % args.dataset
         self.filename = 'weights/%s_InvRL_best.pth' % args.dataset
@@ -142,7 +152,7 @@ class InvRL(Model):
         self.max_net = None
 
         self.mask_dim = self.ds.feature.shape[1]
-        self.domain = torch.tensor(np.random.randint(0, self.args.num_domains, int(self.ds.train.shape[0] * 0.01))).to(self.args.device)
+        self.domain = torch.tensor(np.random.randint(0, self.args.num_domains, int(self.ds.train.shape[0]))).to(self.args.device)
         self.weight = torch.tensor(np.zeros(self.mask_dim, dtype=np.float32)).to(self.args.device)
         self.proj = None
 
@@ -183,10 +193,10 @@ class InvRL(Model):
         # 真正开始 划分环境
         self.logging.info('----- frontend -----')
         ite = 0
-        delta_threshold = int(self.ds.train.shape[0] * 0.01)
+        delta_threshold = int(self.ds.train.shape[0])
         print('delta_threshold %d' % delta_threshold)
         if self.args.reuse == 0:
-            self.domain = torch.tensor(np.random.randint(0, self.args.num_domains, int(self.ds.train.shape[0] * 0.01))).to(
+            self.domain = torch.tensor(np.random.randint(0, self.args.num_domains, int(self.ds.train.shape[0]))).to(
                 self.args.device)
             print('domain :', self.domain)
 
@@ -328,7 +338,7 @@ class InvRL(Model):
             if self.args.pretrained == 0:
                 self.solve(self.args.ite)
                 mask = self.weight
-                np.save('C:\\Users\\vipuser\\Desktop\\cisprogram\\mask.npy', mask.cpu())
+                np.save(self.args.path, mask.cpu())
             else:
                 mask = np.load(self.mask_filename, allow_pickle=True)
                 mask = torch.from_numpy(mask)
@@ -347,7 +357,15 @@ class InvRL(Model):
             self.args.p_emb = self.args.p_embp
             self.args.p_proj = self.args.p_ctx
             self.net = UltraGCNNet(self.ds, self.args, self.logging, mask.cpu()).to(self.args.device)
+            self.ds = get_var(self.ds, variant_representation)
+            self.logging.info("Now Modifing The Config of Attention Model:\n")
+            config = {
+                "num_of_attention_heads": 2,  # 这个属性是你想要划分出的几个层次
+                "hidden_size": 384  # 隐藏特征数
+            }
+            model = BertSelfAttention(config, self.ds, self.args, self.logging, mask).to(self.args.device)
             self.net2 = ERMNet(self.ds, self.args, self.logging, mask.cpu()).to(self.args.device)
+
 
             if self.args.dataset == 'tiktok':
                 self.init_word_emb(self.net)
@@ -371,25 +389,35 @@ class InvRL(Model):
             self.fs.eval()
             assert self.fs.training is False
 
-
-            #从这里开始 IRM学习：
-            for epoch in tqdm(range(epochs)):   # epoch 是完整跑完一边数据集，训练过程不只跑一遍数据
-                #   这里的学习是对划分环境之后的学习
+            # IRM + ERM 融合学习：
+            for epoch in tqdm(range(epochs)):
+                # epoch 是完整跑完一边数据集，训练过程不只跑一遍数据
+                # 这里的学习是对划分环境之后的学习
                 generator = self.ds.sample()
                 while True:
+                    self.logging.info("IRM Learn:")
                     self.net.train()
                     optimizer.zero_grad()
                     optimizer2.zero_grad()
+                    self.logging.info("ERM Learn:")
+                    self.net2.train()
+                    optimizer3.zero_grad()
+                    optimizer4.zero_grad()
                     uid, iid, niid = next(generator)
+
                     if uid is None:
                         break
                     uid, iid, niid = uid.to(self.args.device), iid.to(self.args.device), niid.to(self.args.device)
 
-                    loss = self.net(uid, iid, niid)
+                    loss1 = self.net(uid, iid, niid)
+                    loss2 = self.net2(uid, iid, niid)
+                    loss = np.sqrt(loss1 ** 2 + loss2 ** 2)
 
                     loss.backward()  # Computes the gradient of current tensor w.r.t. graph leaves.
                     optimizer.step()
                     optimizer2.step()
+                    optimizer3.step()
+                    optimizer4.step()
 
                 if epoch > 0 and epoch % self.args.epoch == 0:
                     self.logging.info("Epoch %d: loss %s, U.norm %s, V.norm %s, MLP.norm %s" % (epoch, loss, torch.norm(self.net.U).item(), torch.norm(self.net.V).item(), torch.norm(self.net.MLP.weight).item()))
@@ -406,31 +434,6 @@ class InvRL(Model):
                         else:
                             num_decreases += 1
 
-            print("Now Modifing The Config of model:\n")
-
-            config = {
-                "num_of_attention_heads": 2,  # 这个属性是你想要划分出的几个层次
-                "hidden_size": 384  # 隐藏特征数
-            }
-            model = BertSelfAttention(config, self.ds, self.args, self.logging).to(self.args.device)
-
-            #   将变化环境抽离出来进行单独的ERM学习：
-            for epoch in tqdm(range(epochs)):
-                generator = self.ds.sample()
-                while True:
-                    self.net2.train()
-                    optimizer3.zero_grad()
-                    optimizer4.zero_grad()
-                    uid, iid, niid = next(generator)
-                    if uid is None:
-                        break
-                    uid, iid, niid = uid.to(self.args.device), iid.to(self.args.device), niid.to(self.args.device)
-
-                    loss = self.net2(uid, iid, niid)
-
-                    loss.backward()  # Computes the gradient of current tensor w.r.t. graph leaves.
-                    optimizer3.step()
-                    optimizer4.step()
 
             self.logging.info("Epoch %d:" % end_epoch)
             self.val(), self.test()

@@ -39,10 +39,10 @@ def parse_args():
     parser.add_argument('--tolog', type=int, default=1,
                         help='0: output to stdout, 1: output to logfile')
     # 这个参数是负责输出到哪的，如果 --tolog=0则输出至你的屏幕，默认输出在logfile
-    parser.add_argument('--bsz', type=int, default=512,
+    parser.add_argument('--bsz', type=int, default=256,
                         help='batch size')
     # 批量大小
-    parser.add_argument('--ssz', type=int, default=512,
+    parser.add_argument('--ssz', type=int, default=256,
                         help='size of test samples, including positive and negative samples')
     # 测试集大小
     parser.add_argument('--neg_num', type=int, default=50,
@@ -93,6 +93,8 @@ def parse_args():
                         help='weight decay bias for item embedding')
     parser.add_argument('--sift', type=int, default=0,
                         help='if sift pos items')
+    parser.add_argument('--path', nargs='?',default='C:\\Users\\vipuser\\Desktop\\509run\\mask.npy',
+                        help='the mask file path')
     return parser.parse_args()
 
 args = parse_args()

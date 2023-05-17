@@ -8,12 +8,13 @@ from tiktok.load_data import dataset as ds_tiktok
 # torch.set_printoptions(profile="full")
 
 class BertSelfAttention(nn.Module):
-    def __init__(self, config, ds, args, logging):
+    def __init__(self, config, ds, args, logging, m):
         super().__init__()
         self.ds = ds
         self.feat = self.ds.get_data()
         self.args = args
         self.logging = logging
+        self.mask = m
 
         # 数据初始化Part 2:
         variant_feat = self.init_data()
@@ -78,7 +79,7 @@ class BertSelfAttention(nn.Module):
         # torch.cuda.empty_cache()
         context_layer = torch.matmul(attention_probs,value_layer)  # [Batch_size x Num_of_heads x Seq_length x Head_size]
 
-        context_layer = context_layer.permute(0, 2, 1,3).contiguous()  # [Batch_size x Seq_length x Num_of_heads x Head_size]
+        context_layer = context_layer.permute(0, 2, 1, 3).contiguous()  # [Batch_size x Seq_length x Num_of_heads x Head_size]
         new_context_layer_shape = context_layer.size()[:-2] + (self.all_head_size,)  # [Batch_size x Seq_length x Hidden_size]
         context_layer = context_layer.view(*new_context_layer_shape)  # [Batch_size x Seq_length x Hidden_size]
 
@@ -104,39 +105,5 @@ class BertSelfAttention(nn.Module):
 
         return transfer_output
 
-    def init_data(self):
-        fe = self.feat
-        mask = np.load('C:\\Users\\vipuser\\Desktop\\509run\\mask.npy', allow_pickle=True)
-        mask = torch.from_numpy(mask)
-
-        # print("hi\tthe size of fe[0] = {}".format(fe.size(0)))
-        # time.sleep(5)
-
-        variant_feature = []
-        print("***\tNow start generting variant feature Matrix...\n")
-        for i in tqdm(range(fe.size(0))):
-            variant_feature.append(np.multiply(fe[i], mask).tolist())
-        variant_feature = torch.FloatTensor(variant_feature)
-
-        # 文件IO
-        # fd = open('variant_feature.txt','w')
-        # print("Now start wrire to file...\n")
-        # for i in tqdm(range(fe.size(0))):
-        #     s = variant_feature[i].tolist()
-        #     for j in range(len(s)):
-        #         if type(s[j]) != str:
-        #             s[j] = str(s[j])
-        #
-        #     strs = ' '.join(s)
-        #     fd.write(strs)
-        # print("DONE~\n")
-        # fd.close()
-
-        # print("Now total variant feature = \n {0} \n The size = ({1},{2})".format(variant_feature,
-        #                                                                           len(variant_feature[0]),
-        #
-        #                                                                           len(variant_feature[1])))
-        self.ds.change_data(variant_feature)
-        return variant_feature
 
 
