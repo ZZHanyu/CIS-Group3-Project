@@ -8,6 +8,7 @@ from model import Model
 import scipy.sparse as sp
 import math
 import torch.nn as nn
+from MultAttention import Attention
 
 
 class ERMNet(torch.nn.Module):
@@ -141,6 +142,7 @@ class ERMNet(torch.nn.Module):
             self.cal_t()
 
         self.user_emb = self.U
+        # print("user_emb = \n",self.user_emb)
 
         feat = torch.Tensor([]).to(self.args.device)
         if self.v_feat is not None:
@@ -154,7 +156,18 @@ class ERMNet(torch.nn.Module):
         if fs is not None:
             feat = fs(feat)
         feat = self.MLP(feat)
+        print("Feat = \n",feat,feat.shape)
+
+        # Attention model start:
+        config = {
+            "num_of_attention_heads": 4,  # 这个属性是你想要划分出的几个层次
+            "hidden_size": self.args.bsz  # 隐藏特征数
+        }
+
+        feat = Attention(config, feat, self.args, self.logging)
+
         self.item_emb = torch.cat((self.V, feat), dim=1)
+        # print("item_emb = \n",self.item_emb,self.item_emb.shape,"\n")
 
         loss = self.loss_L(uid, iid, niid) + self.regs(uid, iid, niid)
         return loss
@@ -197,7 +210,7 @@ class UltraGCN(Model):
         self.max_test = self.test_scores
         torch.save(self.net.state_dict(), self.filename)
 
-    def train(self):
+    def train_erm(self):
         lr1, wd1 = self.args.p_emb
         lr2, wd2 = self.args.p_proj
         optimizer = torch.optim.Adam(self.net.emb_params, lr=lr1, weight_decay=0)

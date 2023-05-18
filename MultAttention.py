@@ -5,20 +5,15 @@ import numpy as np
 from tqdm import tqdm
 from tiktok.load_data import dataset as ds_tiktok
 
-# torch.set_printoptions(profile="full")
-
-class BertSelfAttention(nn.Module):
-    def __init__(self, config, ds, args, logging, m):
+class Attention(nn.Module):
+    def __init__(self, config, fe, args, logging):
         super().__init__()
-        self.ds = ds
-        self.feat = self.ds.get_data()
+        self.feat = fe
         self.args = args
         self.logging = logging
-        self.mask = m
 
         # 数据初始化Part 2:
-        variant_feat = self.init_data()
-        data_list = variant_feat.chunk(21, 0)
+        data_list = self.feat.chunk(5, 0)
         variant_feat = torch.stack(data_list, 0)
         embed_rand = variant_feat
         # embed_rand = embed_rand
@@ -27,15 +22,15 @@ class BertSelfAttention(nn.Module):
 
         assert config["hidden_size"] % config[
             "num_of_attention_heads"] == 0, "The hidden size is not a multiple of the number of attention heads"
-        # hidden size = 384
+        # hidden size = 128
         # num_of_attention_heads = 2
 
-        self.num_attention_heads = config['num_of_attention_heads'] # = 2
-        self.attention_head_size = int(config['hidden_size'] / config['num_of_attention_heads']) # = 384 / 2 = 192
-        self.all_head_size = self.num_attention_heads * self.attention_head_size
+        self.num_attention_heads = config['num_of_attention_heads'] # = 4
+        self.attention_head_size = int(config['hidden_size'] / config['num_of_attention_heads']) # = 128 / 4 = 31
+        self.all_head_size = self.num_attention_heads * self.attention_head_size # = 128
 
         # nn.Linear(in.feat:输入的向量大小, out.feat:输出的向量大小)
-        self.query = nn.Linear(config['hidden_size'], self.all_head_size)
+        self.query = nn.Linear(config['hidden_size'], self.all_head_size) # 128, 128
         self.key = nn.Linear(config['hidden_size'], self.all_head_size)
         self.value = nn.Linear(config['hidden_size'], self.all_head_size)
 
@@ -101,7 +96,6 @@ class BertSelfAttention(nn.Module):
         print("***\tAttention Model Sucessfully\t***\n")
 
         transfer_output = torch.mul(transfer_output, self.feat)
-        self.ds.change_data(transfer_output)
 
         return transfer_output
 

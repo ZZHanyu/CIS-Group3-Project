@@ -93,8 +93,9 @@ def parse_args():
                         help='weight decay bias for item embedding')
     parser.add_argument('--sift', type=int, default=0,
                         help='if sift pos items')
-    parser.add_argument('--path', nargs='?',default='C:\\Users\\vipuser\\Desktop\\509run\\mask.npy',
+    parser.add_argument('--path', nargs='?',default='/Users/taotao/Desktop/本地代码/mask.npy',
                         help='the mask file path')
+    # 'C:\\Users\\vipuser\\Desktop\\509run\\mask.npy'
     return parser.parse_args()
 
 args = parse_args()
@@ -128,6 +129,6 @@ if args.model == 'UltraGCN':
     model.train()
 elif args.model == 'IRAT':
     model = InvRL(ds, args, logging)
-    model.train()
+    model.train_erm()
 else:
     raise Exception('unknown model type', args.model)
